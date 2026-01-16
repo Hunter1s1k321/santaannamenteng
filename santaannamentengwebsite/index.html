@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pendaftaran PD Santa Anna Menteng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -173,12 +174,136 @@
 
         .mobile-menu-btn {
             display: none;
-            background: none;
+            background: linear-gradient(135deg, #8B5A2B 0%, #654321 100%);
             border: none;
+            color: white;
+            font-size: 28px;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(139, 90, 43, 0.3);
+            transition: all 0.3s ease;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(139, 90, 43, 0.5);
+        }
+
+        .mobile-menu-btn:active {
+            transform: scale(0.95);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 350px;
+            height: 100vh;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 243, 235, 0.98));
+            backdrop-filter: blur(30px);
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .mobile-menu-logo {
             font-size: 24px;
             color: #654321;
+            font-weight: 700;
+        }
+
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            font-size: 32px;
+            color: #654321;
             cursor: pointer;
-            padding: 5px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background: rgba(139, 90, 43, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .mobile-nav-link {
+            padding: 18px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #654321;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid transparent;
+        }
+
+        .mobile-nav-link:hover {
+            background: linear-gradient(135deg, #8B5A2B 0%, #654321 100%);
+            color: white;
+            transform: translateX(10px);
+            border-color: rgba(212, 165, 116, 0.5);
+        }
+
+        .mobile-nav-link.active {
+            background: linear-gradient(135deg, #8B5A2B 0%, #654321 100%);
+            color: white;
+            border-color: #d4a574;
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* Main Container */
@@ -536,16 +661,18 @@
             }
 
             .about-image {
-                max-width: 400px;
+                max-width: 100%;
                 margin: 0 auto;
             }
 
             section {
-                padding: 40px 30px;
+                padding: 40px 25px;
+                border-radius: 20px;
             }
 
             .video-grid {
                 grid-template-columns: 1fr;
+                gap: 25px;
             }
 
             .header-nav {
@@ -553,7 +680,7 @@
             }
 
             .mobile-menu-btn {
-                display: block;
+                display: flex;
             }
 
             .header h1 {
@@ -561,17 +688,46 @@
             }
 
             .header .subtitle {
-                font-size: 11px;
+                font-size: 10px;
+            }
+
+            .header-logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .main-container {
+                padding: 30px 15px;
             }
         }
 
         @media (max-width: 640px) {
             .section-title {
-                font-size: 24px;
+                font-size: 22px;
             }
 
             section {
                 padding: 30px 20px;
+                border-radius: 16px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
+
+            .form-group input,
+            .form-group select {
+                font-size: 15px;
+                padding: 12px 16px;
+            }
+
+            .submit-btn {
+                padding: 14px 30px;
+                font-size: 16px;
+            }
+
+            .youtube-intro {
+                font-size: 15px;
             }
         }
     </style>
@@ -596,9 +752,29 @@
                 <a href="about.html" class="nav-link">About Us</a>
                 <a href="contact.html" class="nav-link contact-btn">✉ Hubungi Kami</a>
             </nav>
-            <button class="mobile-menu-btn">☰</button>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
         </div>
     </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="mobile-menu-logo">✟ Menu</div>
+            <button class="mobile-menu-close" id="mobileMenuClose">×</button>
+        </div>
+        <nav class="mobile-nav-links">
+            <a href="index.html" class="mobile-nav-link active">
+                <i class="fa-solid fa-house"></i> Beranda
+            </a>
+            <a href="about.html" class="mobile-nav-link">
+                <i class="fa-solid fa-users"></i> About Us
+            </a>
+            <a href="contact.html" class="mobile-nav-link">
+                <i class="fa-solid fa-envelope"></i> Hubungi Kami
+            </a>
+        </nav>
+    </div>
 
     <div class="main-container">
         <!-- Form Section -->
@@ -866,6 +1042,41 @@
 
         document.getElementById('nomor_hp').addEventListener('input', function(e) {
             this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            mobileMenuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', openMobileMenu);
+        }
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', closeMobileMenu);
+        }
+        if (mobileMenuOverlay) {
+            mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+        }
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                setTimeout(closeMobileMenu, 300);
+            });
         });
     </script>
 </body>
