@@ -927,7 +927,7 @@
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAAcRO2GcWTNhwuEO5ENE0t_iE9SPTHbaqdVoAcvaVlZMwRM0R64wE1sXelfWnkyO9/exec';
-        const MAX_QUOTA = 350;
+        const MAX_QUOTA = 550;
 
         const form = document.getElementById('absensiForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -953,7 +953,7 @@
                     
                     if (totalRegistered >= MAX_QUOTA) {
                         // Kuota penuh - tutup registrasi
-                        quotaText.innerHTML = '<span style="color: #dc3545; font-size: 18px;">❌ Kuota Penuh (350/350)</span>';
+                        quotaText.innerHTML = '<span style="color: #dc3545; font-size: 18px;">❌ Kuota Penuh (550/550)</span>';
                         form.style.display = 'none';
                         closedMessage.style.display = 'block';
                     } else {
@@ -1081,3 +1081,4 @@
     </script>
 </body>
 </html>
+
