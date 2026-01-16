@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran PD Santa Anna Menteng</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, 
+                #654321 0%,
+                #8B5A2B 25%,
+                #A0522D 50%,
+                #8B5A2B 75%,
+                #654321 100%);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            min-height: 100vh;
+            color: #f4e4c1;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-cross {
+            font-size: 48px;
+            color: #d4a574;
+            margin-bottom: 15px;
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 25px rgba(212, 165, 116, 0.8),
+                             0 0 35px rgba(212, 165, 116, 0.6);
+            }
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #f4e4c1;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #d4a574;
+            font-style: italic;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 50px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 3px solid #d4a574;
+            animation: slideInLeft 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-section::before {
+            content: '†';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            font-size: 200px;
+            color: rgba(212, 165, 116, 0.05);
+            transform: rotate(15deg);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-title {
+            color: #654321;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .form-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #8B5A2B, transparent);
+            margin: 15px auto 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+            animation: fadeIn 1s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #654321;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .form-group:hover label {
+            color: #8B5A2B;
+        }
+
+        label .optional {
+            color: #999;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="date"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #d4a574;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+            transition: all 0.3s ease;
+            background: #fff;
+            color: #654321;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #8B5A2B;
+            box-shadow: 0 0 0 4px rgba(139, 90, 43, 0.1),
+                        0 5px 15px rgba(139, 90, 43, 0.2);
+            transform: translateY(-2px);
+        }
+
+        input::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #8B5A2B 0%, #654321 100%);
+            color: white;
+            border: 3px solid #d4a574;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(139, 90, 43, 0.5),
+                        0 0 30px rgba(212, 165, 116, 0.3);
+        }
+
+        button:active {
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #999;
+            border-color: #777;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* About Section */
+        .about-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 50px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 3px solid #d4a574;
+            animation: slideInRight 1s ease-out;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .about-image {
+            flex: 0 0 400px;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.5s ease;
+            border: 5px solid #d4a574;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .about-content {
+            flex: 1;
+            color: #654321;
+        }
+
+        .about-content h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #8B5A2B;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .about-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #8B5A2B, transparent);
+        }
+
+        .about-content p {
+            font-size: 17px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* YouTube Section */
+        .youtube-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 50px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 3px solid #d4a574;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .youtube-section h2 {
+            color: #8B5A2B;
+            font-size: 32px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .video-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(139, 90, 43, 0.4);
+            border-color: #d4a574;
+        }
+
+        .video-thumbnail {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-thumbnail iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            padding: 20px;
+            color: #654321;
+        }
+
+        .video-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #8B5A2B;
+        }
+
+        .video-info p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .channel-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: #FF0000;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .channel-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.5);
+            background: #cc0000;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            color: #654321;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        /* Message */
+        .message {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border: 2px solid #28a745;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #d4a574;
+            font-size: 14px;
+        }
+
+        .footer-cross {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .about-section {
+                flex-direction: column;
+            }
+
+            .about-image {
+                flex: 0 0 auto;
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .form-section,
+            .about-section,
+            .youtube-section {
+                padding: 30px 20px;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-cross">†</div>
+        <h1>📝 Pendaftaran PD Santa Anna Menteng</h1>
+        <p class="subtitle">Bersama dalam Iman, Tumbuh dalam Kasih</p>
+    </div>
+
+    <div class="main-container">
+        <!-- Form Section -->
+        <section class="form-section" id="form-section">
+            <h2 class="form-title">✟ Formulir Pendaftaran ✟</h2>
+            
+            <form id="absensiForm">
+                <div class="form-group">
+                    <label for="nama_panggilan">Nama Panggilan</label>
+                    <input type="text" id="nama_panggilan" name="nama_panggilan" 
+                           placeholder="Contoh: Budi" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nama_lengkap">Nama Lengkap</label>
+                    <input type="text" id="nama_lengkap" name="nama_lengkap" 
+                           placeholder="Contoh: Budi Santoso" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tanggal_lahir">
+                        Tanggal Lahir 
+                        <span class="optional">(opsional)</span>
+                    </label>
+                    <input type="date" id="tanggal_lahir" name="tanggal_lahir">
+                </div>
+
+                <div class="form-group">
+                    <label for="nomor_hp">Nomor HP</label>
+                    <input type="tel" id="nomor_hp" name="nomor_hp" 
+                           placeholder="Contoh: 08123456789" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="asal_paroki">Asal Paroki / Gereja</label>
+                    <input type="text" id="asal_paroki" name="asal_paroki" 
+                           placeholder="Contoh: Paroki St Anna Menteng" required>
+                </div>
+
+                <button type="submit" id="submitBtn">✟ Submit Pendaftaran ✟</button>
+                
+                <div class="loading" id="loading">
+                    <p>⏳ Mengirim data</p>
+                </div>
+            </form>
+
+            <div class="message" id="message"></div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section">
+            <div class="about-image">
+                <img src="./assets/cello.JPG" alt="PD Santa Anna Menteng" onerror="this.src='https://via.placeholder.com/400x500/8B5A2B/f4e4c1?text=PD+Santa+Anna+Menteng'">
+            </div>
+            <div class="about-content">
+                <h2>✟ Tentang PD Santa Anna Menteng</h2>
+                <p>
+                    Pemuda-Pemudi Santa Anna Menteng adalah komunitas iman Katolik yang berdedikasi untuk 
+                    membangun generasi muda yang kokoh dalam iman, penuh kasih, dan melayani sesama.
+                </p>
+                <p>
+                    Kami percaya bahwa setiap kaum muda memiliki panggilan unik untuk menjadi saksi Kristus 
+                    di dunia. Melalui berbagai kegiatan rohani, persekutuan, dan pelayanan, kami bersama-sama 
+                    bertumbuh dalam iman dan memperdalam hubungan dengan Tuhan.
+                </p>
+                <p>
+                    <strong>"Datang sebagai saudara, pulang dengan iman yang dikuatkan."</strong> - 
+                    Ini adalah visi kami untuk setiap pertemuan. Bergabunglah bersama kami dalam 
+                    perjalanan iman yang penuh makna dan kebersamaan.
+                </p>
+            </div>
+        </section>
+
+        <!-- YouTube Section -->
+        <section class="youtube-section">
+            <h2>✟ Pengajaran & Inspirasi ✟</h2>
+            <p style="text-align: center; color: #654321; font-size: 18px; margin-bottom: 20px;">
+                Temukan berbagai materi pengajaran, sharing iman, dan inspirasi rohani di channel YouTube kami
+            </p>
+
+            <div class="video-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <iframe src="https://www.youtube.com/embed/5mC723sp2WA" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Misa Awal Tahun bersama Pater Kees van Dijk, OFM</h3>
+                        <p>Merayakan awal tahun dengan Misa bersama Pater Kees van Dijk, OFM dalam semangat iman yang baru.</p>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <iframe src="https://www.youtube.com/embed/aTlizup6CpQ" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Rm. Eko Wahyu, OSC - "Beriman Bersama Maria"</h3>
+                        <p>Pengajaran mendalam tentang iman bersama Bunda Maria oleh Rm. Eko Wahyu, OSC.</p>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <iframe src="https://www.youtube.com/embed/CCTH_XL0qm8" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>PD St. Anna Menteng bersama Rm. Effendi Kusuma Sunur, SJ</h3>
+                        <p>Sharing iman dan pengajaran rohani bersama Rm. Effendi Kusuma Sunur, SJ.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="https://www.youtube.com/@pd.stannamenteng7677" target="_blank" class="channel-link">
+                    🎥 Kunjungi Channel YouTube Kami
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <div class="footer">
+        <div class="footer-cross">†</div>
+        <p>© 2026 PD Santa Anna Menteng. Semua hak dilindungi.</p>
+        <p style="margin-top: 10px; font-style: italic;">"Tuhan memberkati pemuda-pemudi yang setia"</p>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAAcRO2GcWTNhwuEO5ENE0t_iE9SPTHbaqdVoAcvaVlZMwRM0R64wE1sXelfWnkyO9/exec';
+
+        const form = document.getElementById('absensiForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loading = document.getElementById('loading');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            loading.classList.add('show');
+            message.style.display = 'none';
+
+            const formData = new FormData(form);
+            
+            const iframe = document.createElement('iframe');
+            iframe.name = 'hidden_iframe';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            const hiddenForm = document.createElement('form');
+            hiddenForm.action = SCRIPT_URL;
+            hiddenForm.method = 'POST';
+            hiddenForm.target = 'hidden_iframe';
+            
+            for (const [key, value] of formData.entries()) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                hiddenForm.appendChild(input);
+            }
+            
+            document.body.appendChild(hiddenForm);
+            
+            try {
+                hiddenForm.submit();
+                
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Simpan data untuk halaman success
+                const userData = {
+                    nama_panggilan: formData.get('nama_panggilan'),
+                    nama_lengkap: formData.get('nama_lengkap'),
+                    tanggal_lahir: formData.get('tanggal_lahir'),
+                    nomor_hp: formData.get('nomor_hp'),
+                    asal_paroki: formData.get('asal_paroki'),
+                    timestamp: new Date().toLocaleString('id-ID')
+                };
+                
+                sessionStorage.setItem('userData', JSON.stringify(userData));
+                
+                // Redirect ke halaman success
+                window.location.href = 'success.html';
+                
+                document.body.removeChild(hiddenForm);
+                document.body.removeChild(iframe);
+
+            } catch (error) {
+                showMessage('error', '❌ Terjadi kesalahan: ' + error.message);
+                if (document.body.contains(hiddenForm)) document.body.removeChild(hiddenForm);
+                if (document.body.contains(iframe)) document.body.removeChild(iframe);
+            } finally {
+                submitBtn.disabled = false;
+                loading.classList.remove('show');
+            }
+        });
+
+        function showMessage(type, text) {
+            message.className = 'message ' + type;
+            message.textContent = text;
+            message.style.display = 'block';
+        }
+
+        document.getElementById('nomor_hp').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>

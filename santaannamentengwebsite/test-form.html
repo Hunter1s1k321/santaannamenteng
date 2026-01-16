@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Form - Simple</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Form Absensi PD</h1>
+    <p><strong>Ini form test sederhana - Langsung submit ke Apps Script</strong></p>
+    
+    <!-- FORM LANGSUNG KE APPS SCRIPT -->
+    <form action="https://script.google.com/macros/s/AKfycbzAAcRO2GcWTNhwuEO5ENE0t_iE9SPTHbaqdVoAcvaVlZMwRM0R64wE1sXelfWnkyO9/exec" 
+          method="POST" 
+          target="_blank">
+        
+        <div class="form-group">
+            <label>Nama Panggilan:</label>
+            <input type="text" name="nama_panggilan" value="TestBudi" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Nama Lengkap:</label>
+            <input type="text" name="nama_lengkap" value="Test Budi Santoso" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Tanggal Lahir (opsional):</label>
+            <input type="date" name="tanggal_lahir" value="1990-01-15">
+        </div>
+        
+        <div class="form-group">
+            <label>Nomor HP (gunakan nomor asli untuk test WA):</label>
+            <input type="tel" name="nomor_hp" value="08123456789" required>
+            <small style="color: #666;">*Ganti dengan nomor Anda untuk test WhatsApp</small>
+        </div>
+        
+        <div class="form-group">
+            <label>Asal Paroki:</label>
+            <input type="text" name="asal_paroki" value="Test Paroki" required>
+        </div>
+        
+        <button type="submit">🚀 Test Submit</button>
+    </form>
+    
+    <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px;">
+        <h3>📋 Instruksi Test:</h3>
+        <ol>
+            <li><strong>Ganti nomor HP</strong> dengan nomor asli Anda (untuk test WhatsApp)</li>
+            <li>Klik tombol <strong>"Test Submit"</strong></li>
+            <li>Tab baru akan terbuka dan menunjukkan response JSON</li>
+            <li>Cek hasil:
+                <ul>
+                    <li>✅ Lihat response JSON di tab baru</li>
+                    <li>✅ Cek spreadsheet → data harus masuk</li>
+                    <li>✅ Cek WhatsApp → harus dapat pesan</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <h4>🔍 Response yang Diharapkan:</h4>
+        <pre style="background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto;">
+{
+  "status": "success",
+  "message": "Data berhasil disimpan! Nomor urut Anda: X",
+  "nomor_urut": X
+}
+        </pre>
+        
+        <h4>❌ Jika Error:</h4>
+        <ul>
+            <li>Screenshot response JSON</li>
+            <li>Cek Apps Script Execution Log:
+                <ol>
+                    <li>Buka Apps Script Editor</li>
+                    <li>Menu: View → Executions</li>
+                    <li>Lihat error log terakhir</li>
+                </ol>
+            </li>
+        </ul>
+    </div>
+    
+    <div style="margin-top: 20px; padding: 15px; background: #e7f3ff; border: 1px solid #2196F3; border-radius: 4px;">
+        <h4>🔗 Links Penting:</h4>
+        <ul>
+            <li><a href="https://docs.google.com/spreadsheets/d/1U6p_iVVOLDdyeHqDBrT3mbMInaASKa5EL2UrfXHw4FQ/edit" target="_blank">📊 Buka Spreadsheet</a></li>
+            <li><a href="https://script.google.com/home" target="_blank">⚙️ Apps Script Dashboard</a></li>
+        </ul>
+    </div>
+</body>
+</html>

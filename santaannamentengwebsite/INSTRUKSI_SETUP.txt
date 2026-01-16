@@ -1,0 +1,261 @@
+========================================
+INSTRUKSI SETUP - ABSENSI PD ST ANNA MENTENG
+========================================
+
+📋 SPREADSHEET INFO:
+ID: 1U6p_iVVOLDdyeHqDBrT3mbMInaASKa5EL2UrfXHw4FQ
+Sheet: Absensi PD St Anna Menteng
+
+Kolom di Spreadsheet:
+A. Timestamp (otomatis)
+B. Nama panggilan
+C. Nama Lengkap
+D. Tanggal Lahir (opsional)
+E. Nomor HP
+F. Asal Paroki / Gereja
+
+⚠️ CATATAN PENTING:
+Script ini MENGGABUNGKAN sistem yang sudah ada:
+- Google Form (onFormSubmit) → Tetap jalan seperti biasa
+- HTML Form (doPost) → Input alternatif baru
+- WhatsApp Notification → Dipakai oleh keduanya
+
+========================================
+LANGKAH 1: BACKUP KODE LAMA (PENTING!)
+========================================
+
+1. Buka Google Spreadsheet Anda:
+   https://docs.google.com/spreadsheets/d/1U6p_iVVOLDdyeHqDBrT3mbMInaASKa5EL2UrfXHw4FQ/edit
+
+2. Klik menu "Extensions" → "Apps Script"
+
+3. COPY semua kode yang ada sekarang → Simpan di Notepad (backup!)
+
+4. Ini penting untuk jaga-jaga kalau ada masalah
+
+
+========================================
+LANGKAH 2: GANTI DENGAN KODE BARU
+========================================
+
+1. Masih di Apps Script Editor
+
+2. HAPUS semua kode yang ada
+
+3. COPY SEMUA kode dari file "google-apps-script.js"
+
+4. PASTE ke Apps Script Editor
+
+5. Klik "Save" (💾) atau tekan Ctrl+S
+
+6. Pastikan tidak ada error (lihat di bawah editor)
+
+
+========================================
+LANGKAH 3: DEPLOY WEB APP
+========================================
+
+⚠️ INI UNTUK HTML FORM SAJA (Google Form tidak perlu deploy ulang)
+
+1. Di Apps Script Editor, klik "Deploy" → "New deployment"
+
+2. Klik icon "gear" (⚙️) → Pilih "Web app"
+
+3. Isi setting berikut:
+   - Description: Absensi Form API
+   - Execute as: Me (email Anda)
+   - Who has access: Anyone
+   
+4. Klik "Deploy"
+
+5. Akan muncul popup "Authorize access" → Klik "Authorize access"
+
+6. Pilih akun Google Anda
+
+7. Klik "Advanced" → "Go to [Project Name] (unsafe)"
+
+8. Klik "Allow"
+
+9. COPY URL yang muncul! Contoh:
+   https://script.google.com/macros/s/AKfycbxxx.../exec
+   
+   ⚠️ URL INI SANGAT PENTING! Simpan baik-baik!
+
+
+========================================
+LANGKAH 4: UPDATE FILE HTML
+========================================
+
+1. Buka file "index.html"
+
+2. Cari baris ini (sekitar baris 173):
+   const SCRIPT_URL = 'GANTI_DENGAN_URL_DEPLOYMENT_ANDA';
+
+3. Ganti dengan URL deployment yang Anda copy tadi:
+   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxx.../exec';
+
+4. Save file (Ctrl+S)
+
+
+========================================
+LANGKAH 5: TEST SISTEM
+========================================
+
+🔍 TEST HTML FORM:
+
+1. Buka file "index.html" di browser (double click)
+
+2. Isi form dengan data test
+
+3. Klik "Submit Absensi"
+
+4. Jika berhasil:
+   ✅ Muncul pesan "Data berhasil disimpan! Nomor urut: X"
+   ✅ Data masuk ke spreadsheet
+   ✅ User terima WA otomatis
+   ✅ Admin terima WA notifikasi
+
+🔍 TEST GOOGLE FORM:
+
+1. Submit data via Google Form yang sudah ada
+
+2. Sistem WhatsApp tetap jalan seperti biasa
+
+3. Tidak ada perubahan di Google Form
+
+
+========================================
+CARA KERJA SISTEM
+========================================
+
+┌─────────────────┐
+│   GOOGLE FORM   │ ──→ onFormSubmit()
+└─────────────────┘        ↓
+                           ↓
+┌─────────────────┐        ↓
+│   HTML FORM     │ ──→ doPost()
+└─────────────────┘        ↓
+                           ↓
+                   ┌───────────────────┐
+                   │ sendWhatsApp      │
+                   │ Notifications()   │
+                   └───────────────────┘
+                           ↓
+                   ┌───────────────────┐
+                   │  1. Save to Sheet │
+                   │  2. Send WA User  │
+                   │  3. Send WA Admin │
+                   └───────────────────┘
+
+
+========================================
+FITUR YANG SUDAH TERINTEGRASI
+========================================
+
+✅ Auto WhatsApp ke User dengan nomor urut
+✅ Auto WhatsApp ke Admin (08111928287)
+✅ Format nomor HP otomatis (0812 → 62812)
+✅ Format tanggal lahir Indonesia
+✅ Validasi nomor HP
+✅ Timestamp otomatis
+✅ Nomor urut otomatis
+✅ Support Google Form + HTML Form
+
+
+========================================
+TROUBLESHOOTING
+========================================
+
+❌ Error: "Terjadi kesalahan"
+→ Pastikan URL deployment sudah benar di index.html
+→ Pastikan "Who has access" = "Anyone" saat deploy
+
+❌ WhatsApp tidak terkirim
+→ Cek TOKEN dan INSTANCE_ID masih valid
+→ Cek nomor admin di CONFIG.ADMIN_TARGETS
+→ Lihat log error di Apps Script (View → Execution log)
+
+❌ Data tidak masuk ke spreadsheet
+→ Cek nama sheet harus sama persis: "Absensi PD St Anna Menteng"
+→ Cek Spreadsheet ID di CONFIG
+
+❌ Form tidak bisa disubmit
+→ Buka Console browser (F12) → lihat error message
+→ Pastikan semua field required sudah diisi
+
+❌ Google Form tidak kirim WA
+→ Pastikan trigger "onFormSubmit" masih aktif
+→ Cek di Apps Script: Triggers (icon jam) → Harus ada onFormSubmit
+
+
+========================================
+PENTING! CEK TRIGGER GOOGLE FORM
+========================================
+
+Setelah deploy, pastikan trigger Google Form masih aktif:
+
+1. Di Apps Script Editor, klik icon "Triggers" (⏰)
+
+2. Harus ada trigger:
+   - Function: onFormSubmit
+   - Event: From spreadsheet
+   - Event type: On form submit
+
+3. Jika tidak ada, TAMBAHKAN:
+   - Klik "+ Add Trigger"
+   - Choose function: onFormSubmit
+   - Select event source: From spreadsheet
+   - Select event type: On form submit
+   - Klik "Save"
+
+
+========================================
+KONFIGURASI WHATSAPP (Jika Perlu Ubah)
+========================================
+
+Di file google-apps-script.js, cari bagian CONFIG:
+
+const CONFIG = {
+  SPREADSHEET_ID: '...',
+  SHEET_NAME: '...',
+  TOKEN: "...",                    ← Token WhatsApp API
+  INSTANCE_ID: "...",              ← Instance ID
+  ADMIN_TARGETS: ["08111928287"],  ← Nomor admin yang terima notif
+  BASE_URL: "..."                  ← API endpoint
+};
+
+Untuk menambah admin, tambahkan di array:
+ADMIN_TARGETS: ["08111928287", "08123456789", "08999999999"]
+
+
+========================================
+DEPLOY KE WEBSITE HOSTING
+========================================
+
+Setelah test berhasil, Anda bisa upload index.html ke:
+- GitHub Pages
+- Netlify
+- Vercel
+- Hosting lainnya
+
+File index.html sudah standalone, tidak perlu file lain!
+
+
+========================================
+SUPPORT & TESTING
+========================================
+
+Gunakan fungsi testDoPost() untuk testing:
+
+1. Di Apps Script Editor
+2. Pilih function: testDoPost
+3. Klik "Run"
+4. Lihat log: View → Execution log
+5. Cek apakah data masuk & WA terkirim
+
+Jika ada masalah, screenshoot:
+- Error message
+- Execution log
+- URL deployment yang digunakan
+
+Selamat menggunakan! 🎉

@@ -1,0 +1,156 @@
+function onFormSubmit(e) {
+  //---------------------------------------------------------
+  // KONFIGURASI
+  //---------------------------------------------------------
+  const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJ2OXpNdDlSaHFWVnhFclUyb0RLVXNsR3Byd3Q1Qks1RyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY1MTI4OTQ5fQ.X2eHa5OrzRsR2mr0NdY_BEyqm_72Nsy4iPBZGQtfZss";
+  const INSTANCE_ID = "eyJ1aWQiOiJ2OXpNdDlSaHFWVnhFclUyb0RLVXNsR3Byd3Q1Qks1RyIsImNsaWVudF9pZCI6IlBEIFN0LkFubmEgTWVudGVuZyJ9";
+  const adminTargets = ["08111928287"];
+  const baseUrl = "https://crm.chatera.id/api/v1/send-text";
+
+  //---------------------------------------------------------
+  // FUNGSI AMBIL DATA (AMAN)
+  //---------------------------------------------------------
+  function getValue(name) {
+    if (!e.namedValues[name]) return "NULL";
+    return e.namedValues[name][0] || "NULL";
+  }
+
+  //---------------------------------------------------------
+  // AMBIL DATA DARI GOOGLE FORM
+  //---------------------------------------------------------
+  const name = getValue("Nama Lengkap");
+  const var_1 = getValue("Nama panggilan");
+  const var_2_raw = getValue("Tanggal Lahir ( Tidak Wajib Di isi )");
+  const var_3 = getValue("Asal Paroki / Gereja");
+  const whatsapp_number = convertToInternationalFormat(getValue("Nomor HP"));
+
+  //---------------------------------------------------------
+  // VALIDASI WA
+  //---------------------------------------------------------
+  if (!whatsapp_number || whatsapp_number === "NULL") {
+    Logger.log("Nomor HP kosong → WA tidak dikirim.");
+    return;
+  }
+
+  //---------------------------------------------------------
+  // AMBIL NOMOR URUT (TANPA ERROR)
+  //---------------------------------------------------------
+  const sheet = e.range.getSheet();
+  const NU = sheet.getLastRow() - 1;
+
+  //---------------------------------------------------------
+  // FORMAT TANGGAL
+  //---------------------------------------------------------
+  const var_2 = formatDateSafe(var_2_raw);
+
+  //---------------------------------------------------------
+  // TEMPLATE PESAN UNTUK USER
+  //---------------------------------------------------------
+  const userMessage = `
+*✨PD St. Anna Bulan Januari✨*
+
+Shalom Bapak/Ibu ${var_1}
+Registrasi Nomor Urut Anda Adalah *Nomor: ${NU}*
+Anda sudah TERDAFTAR, mohon tunjukkan WA ini saat
+*PD St. Anna Menteng*
+*Kamis 15 Januari 2026*
+
+Jika Anda sudah menerima WA ini,
+Mohon WA ini segera di balas/reply dengan :
+*YA atau Terima Kasih*
+
+Balasan WA dari Bapak/Ibu untuk memastikan kami bahwa WA sudah sampai.
+Jika tidak ada respon, kami asumsikan terjadi kesalahan input nomor & pendaftaran gugur.
+
+*Catatan Tambahan*
+1. Sebut Nomor dan Nama Anda di meja pendaftaran untuk kami cek dan ditukar kupon
+2. 1 Deret Kursi di gereja muat 12 orang, mohon toleransi dan kerjasamanya.
+3. Jika ada pembatalan mohon segera info, Bulan desember kemarin ada 70-an orang tidak hadir tanpa pemberitahuan,Ada 100 box konsumsi lebih.
+Jangan daftarkan teman anda, jika tidak pasti datang.
+Kasihan Umat yang rindu datang tapi tidak bisa, karena quota penuh.
+Marilah kita saling menghargai. Kami berusaha melayani Bpk/ Ibu dengan baik.
+4. Mohon simpan nomor ini segera di Kontak anda untuk mencegah nomor kami di suspend karena terlalu banyak Broadcast ke nomor baru.
+
+Terima Kasih! 🙏
+`;
+
+  //---------------------------------------------------------
+  // TEMPLATE PESAN ADMIN
+  //---------------------------------------------------------
+  const adminMessage = `
+*✨UMAT PD Bulan Januari✨*
+Nama : ${name}
+Panggilan : ${var_1}
+Nomor HP : ${whatsapp_number}
+Tanggal Lahir : ${var_2}
+Paroki : ${var_3}
+Umat No : *${NU}*
+
+SUDAH TERDAFTAR
+`;
+
+  //---------------------------------------------------------
+  // KIRIM WA KE USER
+  //---------------------------------------------------------
+  sendMessage(whatsapp_number, userMessage);
+
+  //---------------------------------------------------------
+  // KIRIM WA KE ADMIN
+  //---------------------------------------------------------
+  adminTargets.forEach(t =>
+    sendMessage(convertToInternationalFormat(t.trim()), adminMessage)
+  );
+
+  //---------------------------------------------------------
+  // FUNGSI KIRIM WA
+  //---------------------------------------------------------
+  function sendMessage(to, message) {
+    const jid = to.includes("@") ? to : to + "@s.whatsapp.net";
+    const apiUrl =
+      `${baseUrl}?token=${TOKEN}&instance_id=${INSTANCE_ID}&jid=${jid}` +
+      `&msg=${encodeURIComponent(message)}`;
+
+    try {
+      const response = UrlFetchApp.fetch(apiUrl, {
+        method: "get",
+        muteHttpExceptions: true
+      });
+      Logger.log(response.getContentText());
+    } catch (err) {
+      Logger.log("Error kirim WA: " + err);
+    }
+  }
+}
+
+//-------------------------------------------------------------
+// KONVERSI NOMOR WA INTERNASIONAL
+//-------------------------------------------------------------
+function convertToInternationalFormat(num) {
+  if (!num) return null;
+  let s = String(num).trim().replace(/[\s\-\(\)]/g, "");
+
+  if (s.includes("@g.us")) return s;
+  if (s.startsWith("+")) s = s.substring(1);
+  if (s.startsWith("62")) return s;
+  if (s.startsWith("0")) return "62" + s.substring(1);
+  if (/^8\d{6,}$/.test(s)) return "62" + s;
+
+  return s;
+}
+
+//-------------------------------------------------------------
+// FORMAT TANGGAL AMAN UNTUK SEMUA FORMAT
+//-------------------------------------------------------------
+function formatDateSafe(input) {
+  if (!input || input === "NULL") return "_Tanggal lahir tidak diisi_";
+
+  const date = new Date(input);
+  if (isNaN(date.getTime())) return "_Tanggal lahir tidak valid_";
+
+  const months = [
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
+
+  return date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+}

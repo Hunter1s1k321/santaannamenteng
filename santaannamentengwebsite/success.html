@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Berhasil - PD Santa Anna Menteng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Georgia', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Particles Background */
+        .particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #1a1410 0%, #2d1f14 50%, #1a1410 100%);
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .particle:nth-child(odd) {
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.8), transparent);
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(even) {
+            background: radial-gradient(circle, rgba(139, 90, 43, 0.6), transparent);
+            animation: float 25s infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            50% {
+                transform: translate(100px, -100px) scale(1.3);
+                opacity: 0.8;
+            }
+            90% { opacity: 1; }
+            100% {
+                transform: translate(200px, -200px) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        /* Main Container with Premium Glass Effect */
+        .success-wrapper {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .success-container {
+            background: linear-gradient(145deg, 
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(248, 245, 240, 0.98) 100%);
+            backdrop-filter: blur(30px) saturate(180%);
+            border-radius: 40px;
+            padding: 60px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 
+                0 30px 90px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                0 0 0 1px rgba(212, 165, 116, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: revealContainer 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+
+        @keyframes revealContainer {
+            0% {
+                opacity: 0;
+                transform: scale(0.85) translateY(50px) rotateX(10deg);
+                filter: blur(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0) rotateX(0);
+                filter: blur(0);
+            }
+        }
+
+        /* Decorative Elements */
+        .success-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .corner-ornament {
+            position: absolute;
+            font-size: 120px;
+            color: rgba(212, 165, 116, 0.08);
+            font-weight: 300;
+            pointer-events: none;
+        }
+
+        .corner-ornament.top-left {
+            top: -30px;
+            left: -30px;
+            animation: fadeFloat 3s ease-in-out infinite;
+        }
+
+        .corner-ornament.bottom-right {
+            bottom: -30px;
+            right: -30px;
+            animation: fadeFloat 3s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes fadeFloat {
+            0%, 100% { opacity: 0.08; transform: translateY(0); }
+            50% { opacity: 0.15; transform: translateY(-10px); }
+        }
+
+        /* Success Icon with Premium Animation */
+        .success-icon-wrapper {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .success-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            box-shadow: 
+                0 20px 50px rgba(40, 167, 69, 0.4),
+                inset 0 -5px 10px rgba(0, 0, 0, 0.1),
+                inset 0 5px 10px rgba(255, 255, 255, 0.3);
+            position: relative;
+            animation: iconBounceIn 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+        }
+
+        @keyframes iconBounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.15) rotate(10deg);
+            }
+            80% {
+                transform: scale(0.95) rotate(-5deg);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        .success-icon i {
+            font-size: 70px;
+            color: white;
+            animation: checkPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes checkPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 3px solid rgba(40, 167, 69, 0.5);
+            animation: rippleEffect 2s ease-out infinite;
+        }
+
+        .ripple:nth-child(2) { animation-delay: 0.5s; }
+        .ripple:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes rippleEffect {
+            0% {
+                width: 140px;
+                height: 140px;
+                opacity: 1;
+            }
+            100% {
+                width: 250px;
+                height: 250px;
+                opacity: 0;
+            }
+        }
+
+        /* Title */
+        h1 {
+            color: #654321;
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #654321 0%, #8B5A2B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideUp 1s ease-out 0.3s both;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+                filter: blur(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        /* Screenshot Notice - Ultra Premium */
+        .screenshot-notice {
+            background: linear-gradient(135deg, #ff4757 0%, #ff6348 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 
+                0 15px 40px rgba(255, 71, 87, 0.5),
+                inset 0 -3px 10px rgba(0, 0, 0, 0.2),
+                inset 0 3px 10px rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 1s ease-out 0.5s both;
+        }
+
+        .screenshot-notice::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .screenshot-notice .icon {
+            display: block;
+            font-size: 40px;
+            margin-bottom: 10px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Queue Number Card - Luxury Gold */
+        .queue-card {
+            background: linear-gradient(135deg, #f5e6d3 0%, #ffd89b 50%, #f5e6d3 100%);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: center;
+            border: 3px solid;
+            border-image: linear-gradient(135deg, #d4a574, #f4e4c1, #d4a574) 1;
+            box-shadow: 
+                0 20px 60px rgba(212, 165, 116, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 1s ease-out 0.7s both;
+        }
+
+        .queue-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+
+        .queue-label {
+            font-size: 18px;
+            color: #8B5A2B;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .queue-number {
+            font-size: 90px;
+            font-weight: 900;
+            color: #654321;
+            text-shadow: 
+                0 4px 8px rgba(101, 67, 33, 0.3),
+                0 0 20px rgba(212, 165, 116, 0.5);
+            position: relative;
+            animation: numberReveal 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.9s both;
+        }
+
+        @keyframes numberReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotateY(90deg);
+                filter: blur(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(0);
+                filter: blur(0);
+            }
+        }
+
+        .queue-instruction {
+            font-size: 15px;
+            color: #8B5A2B;
+            font-style: italic;
+            margin-top: 15px;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .tkp-note {
+            text-align: center;
+            font-size: 16px;
+            color: #654321;
+            font-weight: 600;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(212, 165, 116, 0.1);
+            border-radius: 15px;
+            animation: slideUp 1s ease-out 1.1s both;
+        }
+
+        /* Data Display Card */
+        .data-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 248, 248, 0.9));
+            border-radius: 25px;
+            padding: 35px;
+            margin: 30px 0;
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            animation: slideUp 1s ease-out 1.3s both;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-row:hover {
+            background: rgba(212, 165, 116, 0.05);
+            padding-left: 10px;
+            border-radius: 10px;
+        }
+
+        .data-label {
+            font-weight: 600;
+            color: #8B5A2B;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .data-label i {
+            font-size: 18px;
+            color: #d4a574;
+        }
+
+        .data-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+            animation: slideUp 1s ease-out 1.5s both;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8B5A2B 0%, #654321 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(139, 90, 43, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(139, 90, 43, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            color: #654321;
+            border: 2px solid #d4a574;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border-color: #8B5A2B;
+        }
+
+        /* Loading State */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(139, 90, 43, 0.3);
+            border-top-color: #8B5A2B;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .success-container {
+                padding: 40px 30px;
+                border-radius: 30px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .queue-number {
+                font-size: 70px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .screenshot-notice {
+                font-size: 20px;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles-bg" id="particles"></div>
+
+    <div class="success-wrapper">
+        <div class="success-container">
+            <div class="corner-ornament top-left">✟</div>
+            <div class="corner-ornament bottom-right">✟</div>
+
+            <!-- Success Icon -->
+            <div class="success-icon-wrapper">
+                <div class="ripple"></div>
+                <div class="ripple"></div>
+                <div class="ripple"></div>
+                <div class="success-icon">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+
+            <h1>✟ Pendaftaran Berhasil! ✟</h1>
+
+            <!-- Screenshot Notice -->
+            <div class="screenshot-notice">
+                <span class="icon">📸</span>
+                Mohon Di-Screenshot
+            </div>
+
+            <!-- Queue Number -->
+            <div class="queue-card">
+                <div class="queue-label">✟ Nomor Registrasi Anda ✟</div>
+                <div class="queue-number" id="queue_number">---</div>
+                <div class="queue-instruction">
+                    Tunjukkan nomor ini saat pendaftaran di lokasi
+                </div>
+            </div>
+
+            <div class="tkp-note">
+                🙏 Untuk pelaporan saat di TKP 🙏
+            </div>
+
+            <!-- User Data -->
+            <div class="data-card">
+                <div class="data-row">
+                    <div class="data-label">
+                        <i class="fa-solid fa-user"></i> Nama Panggilan
+                    </div>
+                    <div class="data-value" id="nama_panggilan">-</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">
+                        <i class="fa-solid fa-id-card"></i> Nama Lengkap
+                    </div>
+                    <div class="data-value" id="nama_lengkap">-</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">
+                        <i class="fa-solid fa-cake-candles"></i> Tanggal Lahir
+                    </div>
+                    <div class="data-value" id="tanggal_lahir">-</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">
+                        <i class="fa-solid fa-phone"></i> Nomor HP
+                    </div>
+                    <div class="data-value" id="nomor_hp">-</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">
+                        <i class="fa-solid fa-church"></i> Asal Paroki
+                    </div>
+                    <div class="data-value" id="asal_paroki">-</div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fa-solid fa-home"></i> Kembali ke Beranda
+                </a>
+                <a href="contact.html" class="btn btn-secondary">
+                    <i class="fa-solid fa-envelope"></i> Hubungi Kami
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create animated particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 100 + 50 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAAcRO2GcWTNhwuEO5ENE0t_iE9SPTHbaqdVoAcvaVlZMwRM0R64wE1sXelfWnkyO9/exec';
+
+        // Load data from sessionStorage
+        let userData = JSON.parse(sessionStorage.getItem('userData') || '{}');
+        
+        // Fallback to URL params
+        if (!userData.nama_panggilan) {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('nomor_hp')) {
+                userData = {
+                    nama_panggilan: urlParams.get('nama_panggilan') || '',
+                    nama_lengkap: urlParams.get('nama_lengkap') || '',
+                    tanggal_lahir: urlParams.get('tanggal_lahir') || '',
+                    nomor_hp: urlParams.get('nomor_hp') || '',
+                    asal_paroki: urlParams.get('asal_paroki') || ''
+                };
+            }
+        }
+        
+        if (userData.nama_panggilan && userData.nomor_hp) {
+            // Display user data
+            document.getElementById('nama_panggilan').textContent = userData.nama_panggilan;
+            document.getElementById('nama_lengkap').textContent = userData.nama_lengkap;
+            document.getElementById('tanggal_lahir').textContent = userData.tanggal_lahir || 'Tidak diisi';
+            document.getElementById('nomor_hp').textContent = userData.nomor_hp;
+            document.getElementById('asal_paroki').textContent = userData.asal_paroki;
+            
+            // Fetch queue number
+            document.getElementById('queue_number').innerHTML = '<div class="loading"></div>';
+            fetchQueueNumberFromDOM();
+        } else {
+            // Redirect if no data
+            setTimeout(() => {
+                window.location.href = 'splash.html';
+            }, 2000);
+        }
+
+        async function fetchQueueNumberFromDOM() {
+            try {
+                const displayedNamaLengkap = document.getElementById('nama_lengkap').textContent;
+                const displayedNomorHp = document.getElementById('nomor_hp').textContent;
+                
+                console.log('📋 Fetching queue number based on DISPLAYED data:');
+                console.log('   Nama Lengkap:', displayedNamaLengkap);
+                console.log('   Nomor HP:', displayedNomorHp);
+                
+                const apiUrl = `${SCRIPT_URL}?action=getQueueNumber&nomor_hp=${encodeURIComponent(displayedNomorHp)}&nama_lengkap=${encodeURIComponent(displayedNamaLengkap)}`;
+                console.log('🔗 API URL:', apiUrl);
+                
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                
+                const data = await response.json();
+                console.log('API Response:', data);
+                
+                if (data.success && data.queueNumber) {
+                    const queueNumber = data.queueNumber - 1;
+                    console.log('✅ Queue number found (from spreadsheet):', data.queueNumber);
+                    console.log('✅ Queue number displayed (minus 1):', queueNumber);
+                    
+                    document.getElementById('queue_number').textContent = queueNumber;
+                } else {
+                    console.error('❌ API returned no queue number:', data.message);
+                    document.getElementById('queue_number').textContent = '---';
+                    alert('Data tidak ditemukan di spreadsheet. Silakan hubungi admin.\n\nDetail: ' + (data.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('❌ Error fetching queue number:', error);
+                document.getElementById('queue_number').textContent = 'Error';
+                alert('Gagal mengambil nomor urut dari server.\n\nError: ' + error.message + '\n\nSilakan screenshot halaman ini dan hubungi admin.');
+            }
+        }
+    </script>
+</body>
+</html>
