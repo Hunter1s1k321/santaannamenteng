@@ -851,7 +851,7 @@
 
         <!-- About PD Bulan Mei -->
         <section>
-            <h2 class="section-title">✟ Flier dan Tema PD Bulan Mei ✟</h2>
+            <h2 class="section-title">✨ Flier dan Tema PD Bulan Mei ✨</h2>
             <div class="about-content">
                 <div class="about-image">
                     <img src="./assets/flier.JPG" alt="PD Santa Anna Menteng" 
@@ -979,7 +979,7 @@
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAAcRO2GcWTNhwuEO5ENE0t_iE9SPTHbaqdVoAcvaVlZMwRM0R64wE1sXelfWnkyO9/exec';
-        const MAX_QUOTA = 350;
+        const MAX_QUOTA = 345;
 
         const form = document.getElementById('absensiForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -1005,13 +1005,13 @@
                     
                     if (totalRegistered >= MAX_QUOTA) {
                         // Kuota penuh - tutup registrasi
-                        quotaText.innerHTML = '<span style="color: #dc3545; font-size: 18px;">❌ PENDAFTARAN BELUM DIBUKA!!. KUOTA : (330/330):</span>';
+                        quotaText.innerHTML = '<span style="color: #dc3545; font-size: 18px;">❌ PENDAFTARAN SUDAH FULL!!. KUOTA : (330/330):</span>';
                         form.style.display = 'none';
                         closedMessage.style.display = 'block';
                     } else {
                         // Masih ada kuota
                         const quotaColor = sisaKuota <= 50 ? '#dc3545' : (sisaKuota <= 100 ? '#ff9800' : '#28a745');
-                        quotaText.innerHTML = `<span style="color: ${quotaColor};">Teridentifikasi ada 23 nama ganda identik. Umat Yang Sudah Mendapat No Registrasi, Mohon tidak mengisi form ini lagi !!<br>
+                        quotaText.innerHTML = `<span style="color: ${quotaColor};">Ada 23 nama ganda identik/ double input. Umat Yang Sudah Mendapat No Registrasi, Mohon tidak mengisi form ini lagi !!<br>
                         📊  Sisa Kuota: <strong>${sisaKuota}</strong> dari ${MAX_QUOTA}</span>`;
                         form.style.display = 'grid';
                         closedMessage.style.display = 'none';
