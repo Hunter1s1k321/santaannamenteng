@@ -788,17 +788,17 @@
                 <div style="font-size: 48px; margin-bottom: 20px;">✟</div>
                 <h3 style="font-size: 24px; color: #654321; margin-bottom: 16px; font-weight: 700;">-- S A L V E -- </h3>
                 <p style="font-size: 16px; color: #8B5A2B; line-height: 1.6; max-width: 500px; margin: 0 auto;">
-                    Shaloom. Kuota umat di aula untuk bulan Juni 320 Kursi.<br>
-                    <strong>PENDAFTARAN SUDAH DITUTUP, Total Umat 340 : 325 yang mendaftar online + 15 dari sahabat kawan tuli<br><br>
-                        PD Kamis tanggal 18 Juni akan dibawakan oleh <br>
-                        Rm. Effendi Kusuma Sunur S.J.<br>
-                        Tema : Eksorsisme : Siapa Mau Paham?<br>
+                    Shaloom. Kuota umat di aula untuk bulan Juli 320 Kursi.<br>
+                    <strong>PENDAFTARAN BELUM DIBUKA!!! 🙏<br><br>
+                        PD Kamis tanggal 16 Juli akan dibawakan oleh <br>
+                        Rm. Thomas Ulun Ismoyo Pr.<br>
+                        Tema : .....<br>
                         Pendaftaran Online Kami Buka :<br>
-                        Senin 15 Juni 2026. Jam 8.00 (3 Hari Sebelum PD)<br><br>
+                        Senin 13 Juli 2026. Jam 8.00 (3 Hari Sebelum PD)<br><br>
                         Mohon Dicatat dan diingat tanggal Pendaftarannya<br>
-                        Biasanya, kuota tempat duduk sudah habis dalam waktu 4-6 jam setelah buka<br><br>
-                        Mohon Maaf kami tidak bisa menambah kuota / kursi, ini semua demi keamanan dan kenyamanan kita bersama<br>
-                        Sampai Jumpa di PD Bulan Juni🙋‍♀️</strong><br><br>
+                        Biasanya, kuota tempat duduk sudah habis dalam waktu 2-6 jam setelah buka<br><br>
+                        Mohon Maaf kami tidak bisa menambah kuota / kursi, ini semua demi kenyamanan dan keamanan kita bersama<br>
+                        Sampai Jumpa di PD Bulan Juli🙋‍♀️</strong><br><br>
                     UMAT WAJIB DAFTAR ONLINE DAN MENDAPAT NO REGISTRASI<br> 
                     u/ MEMASTIKAN TEMPAT DUDUK.<br><br>
                     Karena Kebijakan Whatsapp yang terlalu ketat, menyebabkan nomor admin sering di suspend, maka seluruh informasi, kegiatan PD, dll, hanya kami informasikan melalui website ini<br>
@@ -979,7 +979,7 @@
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAAcRO2GcWTNhwuEO5ENE0t_iE9SPTHbaqdVoAcvaVlZMwRM0R64wE1sXelfWnkyO9/exec';
-        const MAX_QUOTA = 345;
+        const MAX_QUOTA = 320;
 
         const form = document.getElementById('absensiForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -1005,13 +1005,13 @@
                     
                     if (totalRegistered >= MAX_QUOTA) {
                         // Kuota penuh - tutup registrasi
-                        quotaText.innerHTML = '<span style="color: #dc3545; font-size: 18px;">❌ MAAF PENDAFTARAN PD BULAN JUNI SUDAH TUTUP!!. KUOTA : (320/320):</span>';
+                        quotaText.innerHTML = '<span style="color: #dc3545; font-size: 18px;">❌ PENDAFTARAN PD BULAN JULI BELUM DIBUKA!!. KUOTA : (320/320):</span>';
                         form.style.display = 'none';
                         closedMessage.style.display = 'block';
                     } else {
                         // Masih ada kuota
                         const quotaColor = sisaKuota <= 50 ? '#dc3545' : (sisaKuota <= 100 ? '#ff9800' : '#28a745');
-                        quotaText.innerHTML = `<span style="color: ${quotaColor};">Ada 25 Nama Duplikat, sama dan identik. Yang sudah dapat nomor, Mohon jangan Daftar lagi !! Bagi yang belum, silahkan daftar 🙏<br>
+                        quotaText.innerHTML = `<span style="color: ${quotaColor};">Yang sudah dapat nomor, Mohon jangan Daftar lagi !! Bagi yang belum, silahkan daftar 🙏<br>
                         📊  Sisa Kuota Kursi : <strong>${sisaKuota}</strong> dari ${MAX_QUOTA}</span>`;
                         form.style.display = 'grid';
                         closedMessage.style.display = 'none';
