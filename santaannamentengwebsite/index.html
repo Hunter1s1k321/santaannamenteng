@@ -1013,30 +1013,13 @@
         let submitTimeout = null;
 
         // =====================================================
-        // HASIL DARI GOOGLE APPS SCRIPT
-        // Dikirim melalui hidden iframe dengan window.postMessage
+        // HASIL PENDAFTARAN - DIAMBIL DENGAN POLLING JSONP
+        // Tidak bergantung pada postMessage dari hidden iframe.
         // =====================================================
-        window.addEventListener('message', function(event) {
-            const data = event.data || {};
-            if (data.type !== 'PD_REGISTRATION_RESULT') return;
-
-            let result;
-            try {
-                result = typeof data.payload === 'string'
-                    ? JSON.parse(data.payload)
-                    : data.payload;
-            } catch (e) {
-                finishWithError('Respons dari server tidak dapat dibaca.');
-                return;
-            }
-
+        function handleRegistrationResult(result) {
             if (!waitingForRegistration) return;
-            if (result && result.request_id && result.request_id !== currentRequestId) return;
 
-            clearTimeout(submitTimeout);
-            waitingForRegistration = false;
-
-            if (result.success) {
+            if (result && result.success) {
                 const formData = new FormData(form);
                 const userData = {
                     nama_panggilan: formData.get('nama_panggilan'),
@@ -1048,6 +1031,8 @@
                     timestamp: new Date().toLocaleString('id-ID')
                 };
 
+                clearTimeout(submitTimeout);
+                waitingForRegistration = false;
                 sessionStorage.setItem('userData', JSON.stringify(userData));
                 sessionStorage.setItem('nomor_registrasi', String(result.nomor_registrasi || ''));
 
@@ -1055,23 +1040,25 @@
                 return;
             }
 
+            clearTimeout(submitTimeout);
+            waitingForRegistration = false;
             submitBtn.disabled = false;
             loading.classList.remove('show');
 
-            if (result.code === 'DUPLICATE_NAME') {
+            if (result && result.code === 'DUPLICATE_NAME') {
                 showMessage('error', '⚠️ ' + result.message);
-            } else if (result.code === 'KUOTA_PENUH') {
+            } else if (result && result.code === 'KUOTA_PENUH') {
                 showMessage('error', '❌ ' + result.message);
                 showClosedMessage();
-            } else if (result.code === 'BELUM_DIBUKA') {
+            } else if (result && result.code === 'BELUM_DIBUKA') {
                 showMessage('error', '⏰ ' + result.message);
-            } else if (result.code === 'PENDAFTARAN_DITUTUP') {
+            } else if (result && result.code === 'PENDAFTARAN_DITUTUP') {
                 showMessage('error', '❌ ' + result.message);
                 showClosedMessage();
             } else {
-                showMessage('error', '❌ ' + (result.message || 'Pendaftaran belum berhasil. Silakan coba kembali.'));
+                showMessage('error', '❌ ' + ((result && result.message) || 'Pendaftaran belum berhasil. Silakan coba kembali.'));
             }
-        });
+        }
 
         function finishWithError(text) {
             clearTimeout(submitTimeout);
@@ -1079,6 +1066,58 @@
             submitBtn.disabled = false;
             loading.classList.remove('show');
             showMessage('error', '❌ ' + text);
+        }
+
+        // Setelah POST dikirim, cek hasil berdasarkan Request ID.
+        // Ini mengatasi kondisi ketika data sudah tersimpan di Google Sheet
+        // tetapi respons dari hidden iframe terlambat/tidak kembali ke browser.
+        function pollRegistrationResult(requestId, attempt) {
+            attempt = attempt || 0;
+            if (!waitingForRegistration) return;
+
+            const callbackName = 'registrationCallback_' + Date.now() + '_' + attempt;
+            const script = document.createElement('script');
+            let finished = false;
+
+            window[callbackName] = function(data) {
+                finished = true;
+
+                try {
+                    if (data && data.success && data.found && data.result) {
+                        handleRegistrationResult(data.result);
+                        return;
+                    }
+
+                    if (waitingForRegistration && attempt < 45) {
+                        setTimeout(function() {
+                            pollRegistrationResult(requestId, attempt + 1);
+                        }, 1000);
+                    } else if (waitingForRegistration) {
+                        finishWithError('Server membutuhkan waktu lebih lama dari biasanya. Data mungkin sudah tersimpan. Mohon jangan mendaftar ulang dulu; muat ulang halaman untuk mengecek status nama Anda.');
+                    }
+                } finally {
+                    delete window[callbackName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                }
+            };
+
+            script.onerror = function() {
+                if (finished) return;
+                finished = true;
+                delete window[callbackName];
+                if (script.parentNode) script.parentNode.removeChild(script);
+
+                if (waitingForRegistration && attempt < 45) {
+                    setTimeout(function() {
+                        pollRegistrationResult(requestId, attempt + 1);
+                    }, 1000);
+                } else if (waitingForRegistration) {
+                    finishWithError('Server tidak dapat memberikan hasil pendaftaran. Mohon jangan mendaftar ulang dulu; muat ulang halaman untuk mengecek status nama Anda.');
+                }
+            };
+
+            script.src = SCRIPT_URL + '?action=getRegistrationResult&request_id=' + encodeURIComponent(requestId) + '&callback=' + encodeURIComponent(callbackName);
+            document.body.appendChild(script);
         }
 
         // =====================================================
@@ -1197,19 +1236,14 @@
                 return;
             }
 
-            // Tunggu respons server. Jangan langsung redirect setelah 2 detik.
-            // Ini mencegah halaman sukses muncul sebelum nomor registrasi benar-benar diterima.
-            submitTimeout = setTimeout(function() {
-                if (!waitingForRegistration) return;
-                waitingForRegistration = false;
-                submitBtn.disabled = false;
-                loading.classList.remove('show');
-                showMessage('error', '⚠️ Server membutuhkan waktu lebih lama dari biasanya. Mohon jangan mendaftar ulang dulu. Silakan tunggu beberapa saat lalu muat ulang halaman untuk mengecek status nama Anda.');
-            }, 30000);
+            // Mulai cek hasil berdasarkan Request ID.
+            // Tidak langsung redirect dan tidak meminta peserta submit ulang.
+            pollRegistrationResult(currentRequestId, 0);
 
+            // Beri waktu iframe POST menyelesaikan proses di background.
             setTimeout(function() {
                 cleanupSubmitElements(hiddenForm, iframe);
-            }, 35000);
+            }, 50000);
         });
 
         function cleanupSubmitElements(hiddenForm, iframe) {
