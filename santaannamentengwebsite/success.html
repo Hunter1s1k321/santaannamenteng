@@ -752,110 +752,74 @@
             particlesContainer.appendChild(particle);
         }
 
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAAcRO2GcWTNhwuEO5ENE0t_iE9SPTHbaqdVoAcvaVlZMwRM0R64wE1sXelfWnkyO9/exec';
+        // =====================================================
+        // DATA PENDAFTARAN DARI index.html
+        // =====================================================
+        const userData = JSON.parse(sessionStorage.getItem('userData') || '{}');
 
-        // Load data from sessionStorage
-        let userData = JSON.parse(sessionStorage.getItem('userData') || '{}');
-        
-        // Fallback to URL params
-        if (!userData.nama_panggilan) {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('nomor_hp')) {
-                userData = {
-                    nama_panggilan: urlParams.get('nama_panggilan') || '',
-                    nama_lengkap: urlParams.get('nama_lengkap') || '',
-                    tanggal_lahir: urlParams.get('tanggal_lahir') || '',
-                    nomor_hp: urlParams.get('nomor_hp') || '',
-                    asal_paroki: urlParams.get('asal_paroki') || ''
-                };
-            }
-        }
-        
-        if (userData.nama_panggilan && userData.nomor_hp) {
-            // Display user data
-            document.getElementById('nama_panggilan').textContent = userData.nama_panggilan;
-            document.getElementById('nama_lengkap').textContent = userData.nama_lengkap;
-            document.getElementById('tanggal_lahir').textContent = userData.tanggal_lahir || 'Tidak diisi';
-            document.getElementById('nomor_hp').textContent = userData.nomor_hp;
-            document.getElementById('asal_paroki').textContent = userData.asal_paroki;
-            
-            // Fetch queue number
-            document.getElementById('queue_number').innerHTML = '<div class="loading"></div>';
-            fetchQueueNumberFromDOM();
-        } else {
-            // Redirect if no data
+        const queueNumber =
+            userData.nomor_registrasi ||
+            sessionStorage.getItem('nomor_registrasi') ||
+            '';
+
+        if (!userData.nama_lengkap || !queueNumber) {
+            document.getElementById('queue_number').textContent = '---';
             setTimeout(() => {
-                window.location.href = 'splash.html';
-            }, 2000);
-        }
+                window.location.href = 'index.html';
+            }, 3000);
+        } else {
+            document.getElementById('nama_panggilan').textContent =
+                userData.nama_panggilan || '-';
+            document.getElementById('nama_lengkap').textContent =
+                userData.nama_lengkap || '-';
+            document.getElementById('tanggal_lahir').textContent =
+                userData.tanggal_lahir || 'Tidak diisi';
+            document.getElementById('nomor_hp').textContent =
+                userData.nomor_hp || '-';
+            document.getElementById('asal_paroki').textContent =
+                userData.asal_paroki || '-';
 
-        async function fetchQueueNumberFromDOM() {
-            try {
-                const displayedNamaLengkap = document.getElementById('nama_lengkap').textContent;
-                const displayedNomorHp = document.getElementById('nomor_hp').textContent;
-                
-                console.log('📋 Fetching queue number based on DISPLAYED data:');
-                console.log('   Nama Lengkap:', displayedNamaLengkap);
-                console.log('   Nomor HP:', displayedNomorHp);
-                
-                const apiUrl = `${SCRIPT_URL}?action=getQueueNumber&nomor_hp=${encodeURIComponent(displayedNomorHp)}&nama_lengkap=${encodeURIComponent(displayedNamaLengkap)}`;
-                console.log('🔗 API URL:', apiUrl);
-                
-                const response = await fetch(apiUrl);
-                
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.status);
-                }
-                
-                const data = await response.json();
-                console.log('API Response:', data);
-                
-                if (data.success && data.queueNumber) {
-                    const queueNumber = data.queueNumber - 1;
-                    console.log('✅ Queue number found (from spreadsheet):', data.queueNumber);
-                    console.log('✅ Queue number displayed (minus 1):', queueNumber);
-                    
-                    document.getElementById('queue_number').textContent = queueNumber;
-                    
-                    // Setup WhatsApp confirmation button
-                    setupWhatsAppButton(queueNumber);
-                } else {
-                    console.error('❌ API returned no queue number:', data.message);
-                    document.getElementById('queue_number').textContent = '---';
-                    alert('Data tidak ditemukan di spreadsheet. Silakan hubungi admin.\n\nDetail: ' + (data.message || 'Unknown error'));
-                }
-            } catch (error) {
-                console.error('❌ Error fetching queue number:', error);
-                document.getElementById('queue_number').textContent = 'Error';
-                alert('Gagal mengambil nomor urut dari server.\n\nError: ' + error.message + '\n\nSilakan screenshot halaman ini dan hubungi admin.');
-            }
+            // Tampilkan nomor registrasi PERSIS seperti yang diberikan
+            // oleh Google Apps Script. Tidak dikurangi 1.
+            document.getElementById('queue_number').textContent = queueNumber;
+
+            setupWhatsAppButton(queueNumber);
         }
 
         function setupWhatsAppButton(queueNumber) {
             const waButton = document.getElementById('wa-confirm-btn');
-            const namaLengkap = document.getElementById('nama_lengkap').textContent;
-            const namaPanggilan = document.getElementById('nama_panggilan').textContent;
-            const nomorHp = document.getElementById('nomor_hp').textContent;
-            
-            // Create WhatsApp message with bold formatting
-            const message = `⚠️ *PENTING: Jangan mengubah data apapun kecuali ada kesalahan input*
-*✨PD Bulan Oktober 2026✨*
-*Nomor Urut: ${queueNumber}*
+
+            const namaLengkap =
+                document.getElementById('nama_lengkap').textContent;
+            const namaPanggilan =
+                document.getElementById('nama_panggilan').textContent;
+            const nomorHp =
+                document.getElementById('nomor_hp').textContent;
+
+            // Nomor WhatsApp panitia
+            const adminWhatsApp = '628111928287';
+
+            const message =
+`⚠️ *PENTING: Jangan mengubah data apapun kecuali ada kesalahan input*
+
+*✨ PD Bulan Oktober 2026 ✨*
+*Nomor Registrasi: ${queueNumber}*
 Nama Lengkap: ${namaLengkap}
 Nama Panggilan: ${namaPanggilan}
 Nomor HP: ${nomorHp}
 
-⚠️Mohon Perhatian :⚠️
-Daftar cukup 1 kali. Jika terjadi Nama dan Nomor HP sama identik (double input),
-maka hanya 1 yang dipakai, lainnya akan kami hapus di sistem.
-Dilarang memberikan nomor registrasi ini kepada orang lain yang beda nama. karena akan menggangu penghitungan jumlah kursi dan konsumsi.
-Jika tidak bisa hadir / berhalangan mohon segera info ke kami.
+⚠️ *Mohon Perhatian* ⚠️
+Daftar cukup 1 kali.
+Jika nama lengkap yang sama sudah terdaftar, tidak perlu mendaftar kembali.
+
+Dilarang memberikan nomor registrasi ini kepada orang lain yang berbeda nama karena akan mengganggu penghitungan jumlah kursi dan konsumsi.
+
+Jika tidak bisa hadir / berhalangan, mohon segera info kepada kami.
 
 📌 *1. Gladiresik & Cek Sound*
 ⏰ 07.00 – 09.00 WIB
 Tim Miss Merry Riana akan melakukan gladiresik dan cek sound di lantai 4.
-Selama kegiatan berlangsung, ruangan dikunci dan steril, umat belum diperkenankan masuk ke ruangan maupun naik ke lantai 4.
-Mohon dengan penuh pengertian kita memberikan kesempatan kepada tim untuk mempersiapkan acara dengan baik.
+Selama kegiatan berlangsung, ruangan dikunci dan steril. Umat belum diperkenankan masuk ke ruangan maupun naik ke lantai 4.
 
 📌 *2. Umat dapat naik ke Lantai 4*
 ⏰ Mulai pukul 09.00 WIB
@@ -863,20 +827,22 @@ Setelah gladiresik dan cek sound selesai, umat dipersilakan naik ke lantai 4 dan
 
 📌 *3. Pendaftaran*
 📝 Pendaftaran tetap dilakukan seperti biasa di lantai bawah.
-Mohon mengikuti arahan dari panitia agar proses pendaftaran berjalan tertib dan lancar.
+Mohon mengikuti arahan panitia agar proses pendaftaran berjalan tertib dan lancar.
 
-PD Akan dimulai jam 10.00, Karena Ada Rosario..😇🙏
+PD akan dimulai pukul 10.00 karena diawali dengan Doa Rosario. 😇🙏
 
-✅ Konfirmasi pendaftaran PD Santa Anna Menteng Tgl 15 Oktober Berhasil`;
-            
-            // WhatsApp URL with pre-filled message
-            const waUrl = `https://wa.me/628111928287?text=${encodeURIComponent(message)}`;
-            
+✅ *Konfirmasi pendaftaran PD Santa Anna Menteng tanggal 15 Oktober 2026 berhasil.*`;
+
+            const waUrl =
+                `https://wa.me/${adminWhatsApp}?text=${encodeURIComponent(message)}`;
+
             waButton.href = waUrl;
+            waButton.target = '_blank';
+            waButton.rel = 'noopener';
         }
+
     </script>
 </body>
 </html>
-
 
 
