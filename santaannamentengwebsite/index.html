@@ -788,7 +788,7 @@
                 <div style="font-size: 48px; margin-bottom: 20px;">✟</div>
                 <h3 style="font-size: 24px; color: #654321; margin-bottom: 16px; font-weight: 700;">-- S A L V E -- </h3>
                 <p style="font-size: 16px; color: #8B5A2B; line-height: 1.6; max-width: 500px; margin: 0 auto;">
-                    Shaloom. Kuota umat di aula untuk bulan Oktober 320 Kursi.<br>
+                    Shaloom. Kuota umat di aula untuk bulan Oktober 340 Kursi.<br>
                     <strong>PENDAFTARAN PD BULAN OKTOBER BELUM DI BUKA, KAMI TUNGGU KEHADIRANNYA 💖🙏😇<br><br>
                         PD Bulan Oktober Bersama Miss Merry Riana dan Rm. Susilo Wijoyo, Pr.<br><br>
                         PD ST. ANNA MENTENG<br>
@@ -800,7 +800,7 @@
                         Firman akan dibawakan oleh : Rm. Susilo Wijoyo, Pr.<br>
                         Tema : PERCAYA DIA <br><br>
                         Pendaftaran Online Kami Buka :<br>
-                        Senin 12 Oktober 2026. Jam 8.00 (3 Hari Sebelum PD)<br><br>
+                        Senin 12 Oktober 2026. Jam 7.55 (3 Hari Sebelum PD)<br><br>
                         ⚠️Mohon Dicatat dan diingat tanggal Pendaftarannya⚠️<br>
                         PD Kemarin, kuota tempat duduk sudah habis dalam waktu 20 menit setelah buka‼️<br><br>
                         Mohon Maaf kami tidak bisa menambah kuota / kursi, ini semua demi kenyamanan AC dan keamanan kita bersama<br>
@@ -992,13 +992,14 @@
     </footer>
 
     <script>
+        // =====================================================
+        // PD ST. ANNA MENTENG - PENDAFTARAN
+        // Backend Google Apps Script
+        // =====================================================
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAAcRO2GcWTNhwuEO5ENE0t_iE9SPTHbaqdVoAcvaVlZMwRM0R64wE1sXelfWnkyO9/exec';
-        const MAX_QUOTA = 5;
-
-        // ====== SAKLAR TUTUP PERMANEN ======
-        // Set true kalau mau tutup pendaftaran secara permanen tanpa cek ke Google Apps Script lagi.
-        // Kalau true: form langsung disembunyikan & pesan tutup langsung muncul, tanpa fetch ke SCRIPT_URL sama sekali.
-        const REGISTRATION_CLOSED = true;
+        const MAX_QUOTA = 340;
+        const OPEN_DATE = '2026-10-12';
+        const OPEN_TIME = '07:55';
 
         const form = document.getElementById('absensiForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -1007,59 +1008,149 @@
         const quotaText = document.getElementById('quotaText');
         const closedMessage = document.getElementById('closedMessage');
 
-        // Cek kuota saat page load
-        checkQuota();
+        let waitingForRegistration = false;
+        let currentRequestId = '';
+        let submitTimeout = null;
 
-        async function checkQuota() {
-            // Kalau sudah ditutup permanen, langsung tampilkan pesan tutup.
-            // Tidak ada fetch ke Google Apps Script / Google Form sama sekali.
-            if (REGISTRATION_CLOSED) {
-                quotaText.innerHTML = '<span style="color: #dc3545; font-size: 18px;">❌ PENDAFTARAN OKTOBER BELUM DIBUKA 🙋‍♀️ MARI DATANG DAN BERSUKACITA BERSAMA 🙏🙇‍♂️</span>';
-                form.style.display = 'none';
-                closedMessage.style.display = 'block';
+        // =====================================================
+        // HASIL DARI GOOGLE APPS SCRIPT
+        // Dikirim melalui hidden iframe dengan window.postMessage
+        // =====================================================
+        window.addEventListener('message', function(event) {
+            const data = event.data || {};
+            if (data.type !== 'PD_REGISTRATION_RESULT') return;
+
+            let result;
+            try {
+                result = typeof data.payload === 'string'
+                    ? JSON.parse(data.payload)
+                    : data.payload;
+            } catch (e) {
+                finishWithError('Respons dari server tidak dapat dibaca.');
                 return;
             }
 
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=getTotalRows`);
-                const data = await response.json();
+            if (!waitingForRegistration) return;
+            if (result && result.request_id && result.request_id !== currentRequestId) return;
 
-                if (data.success) {
-                    const totalRegistered = data.totalRows;
-                    const sisaKuota = MAX_QUOTA - totalRegistered;
+            clearTimeout(submitTimeout);
+            waitingForRegistration = false;
 
-                    console.log('Total terdaftar:', totalRegistered);
-                    console.log('Sisa kuota:', sisaKuota);
+            if (result.success) {
+                const formData = new FormData(form);
+                const userData = {
+                    nama_panggilan: formData.get('nama_panggilan'),
+                    nama_lengkap: formData.get('nama_lengkap'),
+                    tanggal_lahir: formData.get('tanggal_lahir'),
+                    nomor_hp: formData.get('nomor_hp'),
+                    asal_paroki: formData.get('asal_paroki'),
+                    nomor_registrasi: result.nomor_registrasi || '',
+                    timestamp: new Date().toLocaleString('id-ID')
+                };
 
-                    if (totalRegistered >= MAX_QUOTA) {
-                        // Kuota penuh - tutup registrasi
-                        quotaText.innerHTML = '<span style="color: #dc3545; font-size: 18px;">❌ 🙋‍♀️MARI DATANG DAN BERGABUNG😭😭💖✨ !!. KUOTA : (320/320):</span>';
-                        form.style.display = 'none';
-                        closedMessage.style.display = 'block';
-                    } else {
-                        // Masih ada kuota
-                        const quotaColor = sisaKuota <= 50 ? '#dc3545' : (sisaKuota <= 100 ? '#ff9800' : '#28a745');
-                        quotaText.innerHTML = `<span style="color: ${quotaColor};">Pendaftaran sudah dibuka..  Mari, silahkan daftar 🙏<br>
-                        📊  Sisa Kuota Kursi : <strong>${sisaKuota}</strong> dari ${MAX_QUOTA}</span>`;
-                        form.style.display = 'grid';
-                        closedMessage.style.display = 'none';
-                    }
-                } else {
-                    quotaText.innerHTML = '<span style="color: #999;">⚠️ Gagal memuat kuota</span>';
-                }
-            } catch (error) {
-                console.error('Error checking quota:', error);
-                quotaText.innerHTML = '<span style="color: #999;">⚠️ Gagal memuat kuota</span>';
+                sessionStorage.setItem('userData', JSON.stringify(userData));
+                sessionStorage.setItem('nomor_registrasi', String(result.nomor_registrasi || ''));
+
+                window.location.href = 'success.html';
+                return;
             }
+
+            submitBtn.disabled = false;
+            loading.classList.remove('show');
+
+            if (result.code === 'DUPLICATE_NAME') {
+                showMessage('error', '⚠️ ' + result.message);
+            } else if (result.code === 'KUOTA_PENUH') {
+                showMessage('error', '❌ ' + result.message);
+                showClosedMessage();
+            } else if (result.code === 'BELUM_DIBUKA') {
+                showMessage('error', '⏰ ' + result.message);
+            } else if (result.code === 'PENDAFTARAN_DITUTUP') {
+                showMessage('error', '❌ ' + result.message);
+                showClosedMessage();
+            } else {
+                showMessage('error', '❌ ' + (result.message || 'Pendaftaran belum berhasil. Silakan coba kembali.'));
+            }
+        });
+
+        function finishWithError(text) {
+            clearTimeout(submitTimeout);
+            waitingForRegistration = false;
+            submitBtn.disabled = false;
+            loading.classList.remove('show');
+            showMessage('error', '❌ ' + text);
         }
 
-        form.addEventListener('submit', async function(e) {
+        // =====================================================
+        // CEK STATUS / KUOTA MENGGUNAKAN JSONP
+        // Tidak memakai fetch agar lebih aman dari masalah CORS.
+        // =====================================================
+        function checkQuota() {
+            quotaText.innerHTML = '<span style="color:#8B5A2B;">Memeriksa status pendaftaran...</span>';
+
+            const callbackName = 'quotaCallback_' + Date.now();
+            const script = document.createElement('script');
+            let finished = false;
+
+            window[callbackName] = function(data) {
+                finished = true;
+                try {
+                    if (!data || !data.success) {
+                        quotaText.innerHTML = '<span style="color:#dc3545;">⚠️ Server pendaftaran tidak dapat dihubungi.</span>';
+                        return;
+                    }
+
+                    const totalRegistered = Number(data.totalRows || 0);
+                    const remaining = Math.max(0, Number(data.remaining || 0));
+
+                    if (!data.isOpen) {
+                        form.style.display = 'none';
+                        closedMessage.style.display = 'block';
+
+                        if (data.statusCode === 'NOT_OPEN_YET') {
+                            quotaText.innerHTML = '<span style="color:#8B5A2B; font-size:18px;">⏰ Pendaftaran akan dibuka <strong>pukul 07.55 WIB</strong>.</span>';
+                        } else if (data.statusCode === 'QUOTA_FULL') {
+                            quotaText.innerHTML = '<span style="color:#dc3545; font-size:18px;">❌ KUOTA 340 PESERTA SUDAH TERPENUHI</span>';
+                        } else {
+                            quotaText.innerHTML = '<span style="color:#dc3545; font-size:18px;">❌ Pendaftaran sedang ditutup.</span>';
+                        }
+                        return;
+                    }
+
+                    closedMessage.style.display = 'none';
+                    form.style.display = 'grid';
+
+                    const quotaColor = remaining <= 50 ? '#dc3545' : (remaining <= 100 ? '#ff9800' : '#28a745');
+                    quotaText.innerHTML = `<span style="color:${quotaColor};">🙏 Pendaftaran sudah dibuka. Silakan daftar.<br>📊 Sisa Kuota Kursi: <strong>${remaining}</strong> dari ${MAX_QUOTA}</span>`;
+                } finally {
+                    delete window[callbackName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                }
+            };
+
+            script.onerror = function() {
+                if (finished) return;
+                delete window[callbackName];
+                if (script.parentNode) script.parentNode.removeChild(script);
+                quotaText.innerHTML = '<span style="color:#dc3545;">⚠️ Gagal memeriksa server pendaftaran. Silakan muat ulang halaman.</span>';
+            };
+
+            script.src = SCRIPT_URL + '?action=getTotalRows&callback=' + encodeURIComponent(callbackName);
+            document.body.appendChild(script);
+        }
+
+        function showClosedMessage() {
+            form.style.display = 'none';
+            closedMessage.style.display = 'block';
+        }
+
+        // =====================================================
+        // SUBMIT PENDAFTARAN
+        // =====================================================
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            if (REGISTRATION_CLOSED) {
-                showMessage('error', '❌ Pendaftaran sudah ditutup.');
-                return;
-            }
+            if (waitingForRegistration) return;
 
             submitBtn.disabled = true;
             loading.classList.add('show');
@@ -1067,15 +1158,20 @@
 
             const formData = new FormData(form);
 
+            // ID unik untuk mencegah pendaftaran ganda bila koneksi lambat.
+            currentRequestId = 'REQ-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+            waitingForRegistration = true;
+
             const iframe = document.createElement('iframe');
-            iframe.name = 'hidden_iframe';
+            iframe.name = 'pd_registration_iframe';
             iframe.style.display = 'none';
             document.body.appendChild(iframe);
 
             const hiddenForm = document.createElement('form');
             hiddenForm.action = SCRIPT_URL;
             hiddenForm.method = 'POST';
-            hiddenForm.target = 'hidden_iframe';
+            hiddenForm.target = iframe.name;
+            hiddenForm.style.display = 'none';
 
             for (const [key, value] of formData.entries()) {
                 const input = document.createElement('input');
@@ -1085,40 +1181,41 @@
                 hiddenForm.appendChild(input);
             }
 
+            const requestInput = document.createElement('input');
+            requestInput.type = 'hidden';
+            requestInput.name = 'request_id';
+            requestInput.value = currentRequestId;
+            hiddenForm.appendChild(requestInput);
+
             document.body.appendChild(hiddenForm);
 
             try {
                 hiddenForm.submit();
-
-                await new Promise(resolve => setTimeout(resolve, 2000));
-
-                // Simpan data untuk halaman success
-                const userData = {
-                    nama_panggilan: formData.get('nama_panggilan'),
-                    nama_lengkap: formData.get('nama_lengkap'),
-                    tanggal_lahir: formData.get('tanggal_lahir'),
-                    nomor_hp: formData.get('nomor_hp'),
-                    asal_paroki: formData.get('asal_paroki'),
-                    timestamp: new Date().toLocaleString('id-ID')
-                };
-
-                sessionStorage.setItem('userData', JSON.stringify(userData));
-
-                // Redirect ke halaman success
-                window.location.href = 'success.html';
-
-                document.body.removeChild(hiddenForm);
-                document.body.removeChild(iframe);
-
             } catch (error) {
-                showMessage('error', '❌ Terjadi kesalahan: ' + error.message);
-                if (document.body.contains(hiddenForm)) document.body.removeChild(hiddenForm);
-                if (document.body.contains(iframe)) document.body.removeChild(iframe);
-            } finally {
+                finishWithError(error.message || 'Gagal mengirim pendaftaran.');
+                cleanupSubmitElements(hiddenForm, iframe);
+                return;
+            }
+
+            // Tunggu respons server. Jangan langsung redirect setelah 2 detik.
+            // Ini mencegah halaman sukses muncul sebelum nomor registrasi benar-benar diterima.
+            submitTimeout = setTimeout(function() {
+                if (!waitingForRegistration) return;
+                waitingForRegistration = false;
                 submitBtn.disabled = false;
                 loading.classList.remove('show');
-            }
+                showMessage('error', '⚠️ Server membutuhkan waktu lebih lama dari biasanya. Mohon jangan mendaftar ulang dulu. Silakan tunggu beberapa saat lalu muat ulang halaman untuk mengecek status nama Anda.');
+            }, 30000);
+
+            setTimeout(function() {
+                cleanupSubmitElements(hiddenForm, iframe);
+            }, 35000);
         });
+
+        function cleanupSubmitElements(hiddenForm, iframe) {
+            if (hiddenForm && hiddenForm.parentNode) hiddenForm.parentNode.removeChild(hiddenForm);
+            if (iframe && iframe.parentNode) iframe.parentNode.removeChild(iframe);
+        }
 
         function showMessage(type, text) {
             message.className = 'message ' + type;
@@ -1130,7 +1227,12 @@
             this.value = this.value.replace(/[^0-9]/g, '');
         });
 
-        // Mobile Menu Toggle
+        // Cek kuota saat halaman dibuka.
+        checkQuota();
+
+        // =====================================================
+        // MOBILE MENU
+        // =====================================================
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
@@ -1148,21 +1250,12 @@
             document.body.style.overflow = '';
         }
 
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', openMobileMenu);
-        }
-        if (mobileMenuClose) {
-            mobileMenuClose.addEventListener('click', closeMobileMenu);
-        }
-        if (mobileMenuOverlay) {
-            mobileMenuOverlay.addEventListener('click', closeMobileMenu);
-        }
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+        if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileMenu);
+        if (mobileMenuOverlay) mobileMenuOverlay.addEventListener('click', closeMobileMenu);
 
-        // Close menu when clicking a link
         document.querySelectorAll('.mobile-nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                setTimeout(closeMobileMenu, 300);
-            });
+            link.addEventListener('click', () => setTimeout(closeMobileMenu, 300));
         });
     </script>
 </body>
