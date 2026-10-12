@@ -993,6 +993,34 @@
 
     <script>
         // =====================================================
+        // PENDAFTARAN DITUTUP PERMANEN DARI WEBSITE
+        // Tidak melakukan pengecekan Google Apps Script / Google Sheet.
+        // Form tidak ditampilkan dan tidak ada submit yang dapat dilakukan.
+        // =====================================================
+        (function () {
+            const formSection = document.getElementById('form-section');
+            if (formSection) {
+                formSection.innerHTML = `
+                    <div style="text-align:center; padding:60px 20px;">
+                        <div style="font-size:64px; margin-bottom:20px;">🔒</div>
+                        <h2 style="font-size:34px; color:#654321; margin-bottom:18px;">
+                            PENDAFTARAN TELAH DITUTUP
+                        </h2>
+                        <p style="font-size:17px; color:#8B5A2B; line-height:1.8; max-width:650px; margin:0 auto;">
+                            Terima kasih atas antusiasme dan kehadiran seluruh umat
+                            PD St. Anna Menteng.<br><br>
+                            Pendaftaran PD Bulan Oktober telah ditutup.
+                            Mohon tidak melakukan pendaftaran kembali melalui website ini.
+                            <br><br>
+                            Tuhan memberkati. 🙏
+                        </p>
+                    </div>`;
+            }
+            // Hentikan eksekusi kode pendaftaran lama.
+            window.__REGISTRATION_CLOSED__ = true;
+        })();
+
+        // =====================================================
         // PD ST. ANNA MENTENG - PENDAFTARAN
         // Backend Google Apps Script
         // =====================================================
@@ -1186,6 +1214,8 @@
         // =====================================================
         // SUBMIT PENDAFTARAN
         // =====================================================
+        if (window.__REGISTRATION_CLOSED__) return;
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -1261,8 +1291,8 @@
             this.value = this.value.replace(/[^0-9]/g, '');
         });
 
-        // Cek kuota saat halaman dibuka.
-        checkQuota();
+        // Pendaftaran ditutup: tidak melakukan pengecekan ke Google Apps Script.
+        // checkQuota();
 
         // =====================================================
         // MOBILE MENU
