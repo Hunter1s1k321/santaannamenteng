@@ -861,11 +861,49 @@
 
     <div class="about-content">
 
-        <div class="about-image">
-            <img src="./assets/flier.JPG"
-                 alt="Informasi PD St. Anna Menteng"
-                 onerror="this.src='https://via.placeholder.com/400x500/8B5A2B/f4e4c1?text=PD+Santa+Anna+Menteng'">
+
+<div class="about-image">
+
+    <img src="./assets/flier.JPG"
+         alt="Informasi PD St. Anna Menteng"
+         onerror="this.src='https://via.placeholder.com/400x500/8B5A2B/f4e4c1?text=PD+Santa+Anna+Menteng'">
+
+    <div class="pd-event-info">
+
+        <h3>✝️ Mari Bersekutu Bersama</h3>
+
+        <div class="pd-event-item">
+            <span>📅</span>
+            <div>
+                <strong>Kamis, 19 November 2026</strong>
+                <small>Pukul 10.30 WIB</small>
+            </div>
         </div>
+
+        <div class="pd-event-item">
+            <span>🎙️</span>
+            <div>
+                <strong>RD. Yohannes Istimoer Bayu Ajie</strong>
+                <small>Pembicara Persekutuan Doa</small>
+            </div>
+        </div>
+
+        <div class="pd-event-item">
+            <span>📍</span>
+            <div>
+                <strong>Aula GKP Lantai 4</strong>
+                <small>Gereja Ignatius Loyola</small>
+                <small>Jl. Latuharhary No. 13, Jakarta Pusat</small>
+            </div>
+        </div>
+
+        <div class="pd-event-note">
+            Kehadiran Anda adalah bagian dari sukacita
+            dan kebersamaan dalam kasih Tuhan.
+        </div>
+
+    </div>
+</div>
 
         <div class="about-text">
 
@@ -940,81 +978,97 @@
 </section>
 
 <style>
-/* ===== PERAPIHAN INFORMASI PD ===== */
+
+/* ===== PERBAIKAN LAYOUT INFORMASI PD ===== */
 
 .about-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 35px;
-    align-items: center;
+    gap: 30px;
+    align-items: start;
+}
+
+.about-image {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
 }
 
 .about-image img {
-    display: block;
     width: 100%;
     height: auto;
+    display: block;
     border-radius: 15px;
-    box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.13);
 }
 
-.about-text {
-    text-align: left;
-    line-height: 1.75;
-    color: #555;
-    font-size: 14px;
-}
+/* Kotak informasi acara */
 
-.about-text p {
-    margin: 0 0 15px;
-    line-height: 1.75;
-}
-
-.about-text .pd-quote {
-    margin: 20px 0;
-    padding: 14px 18px;
+.pd-event-info {
     background: #fbf5ed;
-    border-left: 4px solid #ae7b45;
-    border-radius: 5px;
+    border: 1px solid #eadbc8;
+    border-radius: 12px;
+    padding: 22px;
+    color: #60482f;
+}
+
+.pd-event-info h3 {
+    font-size: 17px;
     color: #75502e;
-    font-weight: 600;
-    font-style: italic;
-    line-height: 1.7;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5d3bb;
 }
 
-.about-text .pd-registration {
-    color: #9b5b20;
-    font-weight: 700;
-}
-
-.about-text .pd-closing {
-    font-size: 15px;
-    margin: 20px 0 5px;
-    color: #333;
+.pd-event-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 17px;
     line-height: 1.5;
 }
 
-.about-text .pd-blessing {
-    color: #9b5b20;
-    margin-bottom: 0;
+.pd-event-item > span {
+    font-size: 20px;
+    min-width: 25px;
+}
+
+.pd-event-item strong {
+    display: block;
+    font-size: 14px;
+    color: #34445f;
+}
+
+.pd-event-item small {
+    display: block;
+    font-size: 12px;
+    color: #777;
+    margin-top: 3px;
+}
+
+.pd-event-note {
+    margin-top: 12px;
+    padding-top: 14px;
+    border-top: 1px solid #e5d3bb;
+    font-size: 13px;
+    line-height: 1.7;
+    font-style: italic;
+    color: #95652e;
 }
 
 /* Tampilan HP */
+
 @media (max-width: 768px) {
     .about-content {
         grid-template-columns: 1fr;
         gap: 22px;
     }
 
-    .about-text {
-        font-size: 14px;
-        line-height: 1.75;
-    }
-
-    .about-image img {
-        max-width: 100%;
+    .pd-event-info {
+        padding: 18px;
     }
 }
-</style>
 
      
                 <!-- About Section -->
