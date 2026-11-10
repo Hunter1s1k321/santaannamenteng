@@ -853,73 +853,170 @@
             <div class="message" id="message"></div>
         </section>
 
-        <!-- Informasi PD November -->
-        <section>
-            <h2 class="section-title">✨ Informasi PD St. Anna Menteng ✨</h2>
-            <div class="about-content">
-                <div class="about-image">
-                    <img src="./assets/flier.JPG" alt="Informasi PD St. Anna Menteng"
-                         onerror="this.src='https://via.placeholder.com/400x500/8B5A2B/f4e4c1?text=PD+Santa+Anna+Menteng'">
-                </div>
-                <div class="about-text">
+<!-- Informasi PD November -->
+<section>
+    <h2 class="section-title">
+        ✨ Informasi PD St. Anna Menteng ✨
+    </h2>
+
+    <div class="about-content">
+
+        <div class="about-image">
+            <img src="./assets/flier.JPG"
+                 alt="Informasi PD St. Anna Menteng"
+                 onerror="this.src='https://via.placeholder.com/400x500/8B5A2B/f4e4c1?text=PD+Santa+Anna+Menteng'">
+        </div>
+
+        <div class="about-text">
+
+            <p>
+                Ada saatnya kita perlu berhenti sejenak dari kesibukan,
+                datang kepada Tuhan, menenangkan hati, dan menguatkan
+                kembali iman.
+            </p>
+
+            <p>
                 PD St. Anna Menteng dengan penuh sukacita mengundang
                 Suster, Saudara, Bapak, dan Ibu untuk hadir bersama
                 dalam Persekutuan Doa.
-                </p>            
+            </p>
 
-                <p>    
+            <p>
                 Mari kita luangkan waktu untuk berdoa, memuji Tuhan,
-                mendengarkan Sabda-Nya, serta saling menguatkan dalam
-                persaudaraan dan kasih Kristus.
-                </p>
-                <p>
+                mendengarkan Sabda-Nya, serta saling menguatkan
+                dalam persaudaraan dan kasih Kristus.
+            </p>
+
+            <p>
                 Melalui pelayanan dan permenungan Sabda Tuhan,
-                kiranya kita semakin diteguhkan untuk menjalani kehidupan
-                dengan iman, pengharapan, dan kasih.
-                </p>
+                bersama RD. Yohannes Istimoer Bayu Ajie,
+                kiranya kita semakin diteguhkan untuk menjalani
+                kehidupan dengan iman, pengharapan, dan kasih.
+            </p>
 
-                <h3>"Jangan hanya menyisihkan waktu untuk Tuhan ketika kita membutuhkan-Nya.
-                    Luangkan waktu untuk bersama-Nya, karena di dalam Dia
-                    kita menemukan kekuatan untuk menjalani kehidupan."
-                </h3>
+            <blockquote class="pd-quote">
+                "Jangan hanya menyisihkan waktu untuk Tuhan
+                ketika kita membutuhkan-Nya. Luangkan waktu
+                untuk bersama-Nya, karena di dalam Dia kita
+                menemukan kekuatan untuk menjalani kehidupan."
+            </blockquote>
 
-                <p>
-                Jangan biarkan kesibukan membuat kita kehilangan kesempatan
-                untuk mendekat kepada Tuhan.
+            <p>
+                Jangan biarkan kesibukan membuat kita kehilangan
+                kesempatan untuk mendekat kepada Tuhan.
                 Terkadang, satu perjumpaan dalam doa dapat memberikan
-                kekuatan baru, harapan baru, dan jawaban atas pergumulan
-                yang sedang kita hadapi.
-                </p>
+                kekuatan baru, harapan baru, dan jawaban atas
+                pergumulan yang sedang kita hadapi.
+            </p>
 
-                <p>
+            <p>
                 Mari hadir bukan hanya untuk mengikuti sebuah acara,
                 tetapi untuk mengalami kebersamaan, memperbarui iman,
                 dan membiarkan Tuhan bekerja dalam kehidupan kita.
-                </p>
+            </p>
 
-                <p>
-                <strong>
-                Pastikan Anda melakukan pendaftaran online pada jadwal resmi
-                dan simpan nomor registrasi sebagai bukti pendaftaran.
-                </strong>
-                </p>
+            <p class="pd-registration">
+                Pastikan Anda melakukan pendaftaran online
+                pada jadwal resmi dan simpan nomor registrasi
+                sebagai bukti pendaftaran.
+            </p>
 
-                <p>
-                Kami menantikan kehadiran Suster, Saudara, Bapak, dan Ibu.
-                Mari menjadi bagian dari persekutuan yang saling menguatkan
-                dan bertumbuh dalam kasih Tuhan.
-                </p>
+            <p>
+                Kami menantikan kehadiran Suster, Saudara, Bapak,
+                dan Ibu. Mari menjadi bagian dari persekutuan
+                yang saling menguatkan dan bertumbuh dalam kasih Tuhan.
+            </p>
 
-                <h3>SAMPAI BERJUMPA DALAM PERSEKUTUAN DOA</h3>
+            <h3 class="pd-closing">
+                SAMPAI BERJUMPA DALAM PERSEKUTUAN DOA
+            </h3>
 
-                <p>
+            <p class="pd-blessing">
                 <strong>Tuhan memberkati. ✝️</strong>
-                </p>
+            </p>
 
-                </div>
-            </div>
-        </section>
+        </div>
+    </div>
+</section>
 
+<style>
+/* ===== PERAPIHAN INFORMASI PD ===== */
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    align-items: center;
+}
+
+.about-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+}
+
+.about-text {
+    text-align: left;
+    line-height: 1.75;
+    color: #555;
+    font-size: 14px;
+}
+
+.about-text p {
+    margin: 0 0 15px;
+    line-height: 1.75;
+}
+
+.about-text .pd-quote {
+    margin: 20px 0;
+    padding: 14px 18px;
+    background: #fbf5ed;
+    border-left: 4px solid #ae7b45;
+    border-radius: 5px;
+    color: #75502e;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.7;
+}
+
+.about-text .pd-registration {
+    color: #9b5b20;
+    font-weight: 700;
+}
+
+.about-text .pd-closing {
+    font-size: 15px;
+    margin: 20px 0 5px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.about-text .pd-blessing {
+    color: #9b5b20;
+    margin-bottom: 0;
+}
+
+/* Tampilan HP */
+@media (max-width: 768px) {
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .about-text {
+        font-size: 14px;
+        line-height: 1.75;
+    }
+
+    .about-image img {
+        max-width: 100%;
+    }
+}
+</style>
+
+     
                 <!-- About Section -->
         <section>
             <h2 class="section-title">✟ Komunitas kami ✟</h2>
