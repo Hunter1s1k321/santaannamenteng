@@ -397,7 +397,107 @@
                 padding: 13px 16px;
             }
         }
-    </style>
+    
+        /* FINAL FIX: tombol selalu terlihat di HP, halaman tetap dapat discroll */
+        @media (max-width: 768px) {
+            html, body {
+                width: 100%;
+                height: auto !important;
+                min-height: 100%;
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
+            }
+
+            body {
+                position: relative;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior-y: auto;
+            }
+
+            .splash-container {
+                display: flex;
+                position: relative;
+                width: 100%;
+                height: auto !important;
+                min-height: 100vh;
+                min-height: 100svh;
+                padding: 14px 12px calc(100px + env(safe-area-inset-bottom));
+                justify-content: flex-start;
+                align-items: center;
+                overflow: visible;
+            }
+
+            .content {
+                width: 100%;
+                max-width: 620px;
+                margin: 0 auto;
+                padding: 8px 4px 12px;
+                animation: none !important;
+                transform: none !important;
+            }
+
+            .logo { margin-bottom: 6px; }
+            .cross-symbol { margin-bottom: 8px; }
+
+            .quote-container {
+                width: 100%;
+                padding: clamp(16px, 4vw, 24px) clamp(14px, 4vw, 22px);
+                margin: 10px 0 14px;
+                animation: none !important;
+                transform: none !important;
+            }
+
+            .quote {
+                font-size: clamp(16px, 4.5vw, 20px);
+                line-height: 1.4;
+            }
+
+            .quote-author {
+                font-size: clamp(13px, 3.7vw, 16px);
+                line-height: 1.35;
+            }
+
+            .overlay, .logo, .cross-symbol, .decorative-line, .particle {
+                animation: none !important;
+            }
+
+            .particles { pointer-events: none; }
+
+            /* Tombol tetap terlihat meskipun panel sambutan lebih tinggi dari layar */
+            .start-button {
+                position: fixed !important;
+                left: 50%;
+                bottom: calc(12px + env(safe-area-inset-bottom));
+                transform: translateX(-50%);
+                z-index: 20;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: calc(100% - 32px);
+                max-width: 440px;
+                min-height: 56px;
+                margin: 0;
+                padding: 13px 16px;
+                font-size: 15px;
+                line-height: 1.2;
+                letter-spacing: 1px;
+                white-space: normal;
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: transparent;
+                box-shadow: 0 5px 22px rgba(0,0,0,.45);
+            }
+
+            .start-button:active {
+                transform: translateX(-50%) scale(.98);
+            }
+        }
+
+        @media (max-width: 380px) {
+            .quote-container { padding: 15px 12px; }
+            .quote { font-size: 16px; }
+            .start-button { font-size: 14px; min-height: 54px; }
+        }
+</style>
 </head>
 <body>
     <div class="splash-container">
