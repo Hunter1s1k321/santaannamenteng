@@ -254,151 +254,7 @@
         }
     
 
-        /* Perbaikan responsif: halaman HP dapat digulir sampai tombol */
-        html {
-            min-height: 100%;
-            overflow-x: hidden;
-        }
-
-        body {
-            min-height: 100vh;
-            min-height: 100dvh;
-            height: auto;
-            overflow-x: hidden;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .splash-container {
-            min-height: 100vh;
-            min-height: 100dvh;
-            height: auto;
-            padding: 24px 16px;
-            overflow: visible;
-        }
-
-        .content {
-            width: 100%;
-            max-width: 800px;
-            padding: 24px;
-            flex: 0 0 auto;
-        }
-
-        .particles {
-            pointer-events: none;
-        }
-
-        .start-button {
-            z-index: 3;
-            min-height: 54px;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        @media (max-width: 768px) {
-            .splash-container {
-                justify-content: flex-start;
-                padding: 16px 12px 28px;
-            }
-
-            .content {
-                padding: 10px 8px;
-                margin: auto 0;
-            }
-
-            .logo {
-                font-size: 21px;
-                margin-bottom: 8px;
-            }
-
-            .cross-symbol {
-                font-size: 38px;
-                margin-bottom: 10px;
-            }
-
-            .quote-container {
-                padding: 22px 18px;
-                margin: 12px 0;
-                border-radius: 18px;
-            }
-
-            .quote {
-                font-size: clamp(17px, 4.8vw, 20px);
-                line-height: 1.45;
-                margin-bottom: 10px;
-            }
-
-            .decorative-line {
-                margin: 13px auto;
-                max-width: 70%;
-            }
-
-            .quote-author {
-                font-size: 15px;
-                line-height: 1.35;
-                margin-top: 12px;
-                letter-spacing: 1.5px;
-            }
-
-            .start-button {
-                display: block;
-                width: min(100%, 420px);
-                margin: 14px auto 8px;
-                padding: 15px 18px;
-                font-size: 15px;
-                letter-spacing: 1.5px;
-                white-space: normal;
-            }
-        }
-
-        /* HP dengan tinggi layar pendek */
-        @media (max-width: 768px) and (max-height: 700px) {
-            .splash-container {
-                padding-top: 10px;
-                padding-bottom: 18px;
-            }
-
-            .content {
-                padding-top: 4px;
-                padding-bottom: 4px;
-            }
-
-            .logo {
-                margin-bottom: 4px;
-            }
-
-            .cross-symbol {
-                font-size: 30px;
-                margin-bottom: 6px;
-            }
-
-            .quote-container {
-                padding: 16px 14px;
-                margin: 8px 0;
-            }
-
-            .quote {
-                font-size: 16px;
-                line-height: 1.35;
-            }
-
-            .decorative-line {
-                margin: 9px auto;
-            }
-
-            .quote-author {
-                font-size: 14px;
-                margin-top: 8px;
-            }
-
-            .start-button {
-                margin-top: 8px;
-                min-height: 50px;
-                padding: 13px 16px;
-            }
-        }
-    
-        /* FINAL FIX: tombol selalu terlihat di HP, halaman tetap dapat discroll */
+        /* Tata letak khusus HP: tombol berada tepat di bawah Salve */
         @media (max-width: 768px) {
             html, body {
                 width: 100%;
@@ -411,72 +267,46 @@
             body {
                 position: relative;
                 -webkit-overflow-scrolling: touch;
-                overscroll-behavior-y: auto;
+                background: #000;
             }
 
             .splash-container {
-                display: flex;
-                position: relative;
                 width: 100%;
                 height: auto !important;
                 min-height: 100vh;
-                min-height: 100svh;
-                padding: 14px 12px calc(100px + env(safe-area-inset-bottom));
+                min-height: 100dvh;
+                padding: 12px 12px 24px;
                 justify-content: flex-start;
                 align-items: center;
                 overflow: visible;
+                animation: none !important;
             }
 
             .content {
                 width: 100%;
                 max-width: 620px;
+                padding: 8px 4px 16px;
                 margin: 0 auto;
-                padding: 8px 4px 12px;
                 animation: none !important;
                 transform: none !important;
             }
 
-            .logo { margin-bottom: 6px; }
-            .cross-symbol { margin-bottom: 8px; }
-
-            .quote-container {
-                width: 100%;
-                padding: clamp(16px, 4vw, 24px) clamp(14px, 4vw, 22px);
-                margin: 10px 0 14px;
-                animation: none !important;
-                transform: none !important;
-            }
-
-            .quote {
-                font-size: clamp(16px, 4.5vw, 20px);
-                line-height: 1.4;
-            }
-
-            .quote-author {
-                font-size: clamp(13px, 3.7vw, 16px);
-                line-height: 1.35;
-            }
-
-            .overlay, .logo, .cross-symbol, .decorative-line, .particle {
+            .logo {
+                font-size: 22px;
+                margin: 2px 0 8px;
                 animation: none !important;
             }
 
-            .particles { pointer-events: none; }
-
-            /* Tombol tetap terlihat meskipun panel sambutan lebih tinggi dari layar */
+            /* Tombol diletakkan di atas isi sambutan agar langsung terlihat */
             .start-button {
-                position: fixed !important;
-                left: 50%;
-                bottom: calc(12px + env(safe-area-inset-bottom));
-                transform: translateX(-50%);
-                z-index: 20;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: calc(100% - 32px);
-                max-width: 440px;
-                min-height: 56px;
-                margin: 0;
+                display: block;
+                position: relative !important;
+                left: auto !important;
+                bottom: auto !important;
+                transform: none !important;
+                width: min(100%, 420px);
+                min-height: 54px;
+                margin: 8px auto 14px;
                 padding: 13px 16px;
                 font-size: 15px;
                 line-height: 1.2;
@@ -484,146 +314,69 @@
                 white-space: normal;
                 touch-action: manipulation;
                 -webkit-tap-highlight-color: transparent;
-                box-shadow: 0 5px 22px rgba(0,0,0,.45);
+                z-index: 5;
             }
 
             .start-button:active {
-                transform: translateX(-50%) scale(.98);
-            }
-        }
-
-        @media (max-width: 380px) {
-            .quote-container { padding: 15px 12px; }
-            .quote { font-size: 16px; }
-            .start-button { font-size: 14px; min-height: 54px; }
-        }
-
-
-        /* MOBILE CLEAN FIX: scroll normal, tombol tetap di alur halaman */
-        @media (max-width: 768px) {
-            html {
-                height: auto !important;
-                min-height: 100%;
-                overflow-x: hidden !important;
-                overflow-y: auto !important;
-            }
-
-            body {
-                height: auto !important;
-                min-height: 100vh;
-                min-height: 100svh;
-                overflow-x: hidden !important;
-                overflow-y: auto !important;
-                position: relative;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .splash-container {
-                height: auto !important;
-                min-height: 100vh;
-                min-height: 100svh;
-                width: 100%;
-                padding: 16px 12px calc(24px + env(safe-area-inset-bottom));
-                justify-content: flex-start;
-                align-items: center;
-                overflow: visible !important;
-                animation: none !important;
-            }
-
-            .overlay,
-            .logo,
-            .cross-symbol,
-            .quote-container,
-            .decorative-line,
-            .particle,
-            .content {
-                animation: none !important;
-            }
-
-            .overlay,
-            .particles {
-                pointer-events: none !important;
-            }
-
-            .content {
-                width: 100%;
-                max-width: 620px;
-                margin: auto 0;
-                padding: 8px 4px;
-                transform: none !important;
-                filter: none !important;
-            }
-
-            .logo {
-                font-size: 21px;
-                margin-bottom: 8px;
+                transform: scale(.98) !important;
             }
 
             .cross-symbol {
                 font-size: 36px;
-                margin-bottom: 10px;
+                margin: 4px 0 8px;
+                animation: none !important;
             }
 
             .quote-container {
                 width: 100%;
                 padding: 20px 16px;
-                margin: 10px 0 14px;
-                transform: none !important;
+                margin: 8px 0 12px;
+                border-radius: 18px;
+                animation: none !important;
+                -webkit-backdrop-filter: none;
+                backdrop-filter: none;
+                background: rgba(255, 255, 255, 0.16);
             }
 
             .quote {
-                font-size: clamp(16px, 4.5vw, 20px);
+                font-size: clamp(16px, 4.6vw, 20px);
                 line-height: 1.4;
+                margin-bottom: 10px;
             }
 
             .decorative-line {
                 margin: 12px auto;
+                animation: none !important;
             }
 
             .quote-author {
-                font-size: clamp(13px, 3.7vw, 16px);
+                font-size: clamp(13px, 3.8vw, 16px);
                 line-height: 1.35;
+                margin-top: 10px;
                 letter-spacing: 1.2px;
             }
 
-            .start-button {
-                position: relative !important;
-                inset: auto !important;
-                display: flex !important;
-                width: min(100%, 420px);
-                min-height: 56px;
-                margin: 14px auto 8px !important;
-                padding: 14px 16px;
-                align-items: center;
-                justify-content: center;
-                transform: none !important;
+            /* Nonaktifkan efek bergerak/berat pada HP */
+            .overlay, .particles, .particle, .logo, .cross-symbol,
+            .decorative-line, .quote-container {
                 animation: none !important;
-                font-size: 15px;
-                line-height: 1.25;
-                letter-spacing: 1px;
-                white-space: normal;
-                touch-action: manipulation;
-                -webkit-tap-highlight-color: transparent;
-                z-index: 5;
             }
-
-            .start-button::before {
-                pointer-events: none;
-            }
+            .particles { pointer-events: none; }
         }
 
-        @media (max-width: 768px) and (max-height: 700px) {
-            .splash-container { padding-top: 8px; }
-            .content { padding-top: 4px; padding-bottom: 4px; }
-            .logo { margin-bottom: 4px; }
-            .cross-symbol { font-size: 30px; margin-bottom: 6px; }
-            .quote-container { padding: 15px 13px; margin: 7px 0 10px; }
-            .quote { font-size: 16px; line-height: 1.35; }
-            .decorative-line { margin: 8px auto; }
-            .quote-author { font-size: 13px; margin-top: 7px; }
-            .start-button { margin-top: 9px !important; min-height: 52px; }
+        @media (max-width: 380px) {
+            .content { padding-left: 2px; padding-right: 2px; }
+            .start-button { font-size: 14px; }
+            .quote-container { padding: 16px 12px; }
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
 </style>
 </head>
 <body>
@@ -644,6 +397,9 @@
 
         <div class="content">
             <div class="logo">✟ Salve ✟</div>
+            <button class="start-button" onclick="startRegistration()">
+                <span>✟ Mulai Mendaftar ✟</span>
+            </button>
             <div class="cross-symbol">†</div>
             
             <div class="quote-container">
@@ -657,19 +413,12 @@
                 <div class="quote-author">Bersama PD Santa Anna Menteng.</div>
             </div>
 
-            <button class="start-button" onclick="startRegistration()">
-                <span>✟ Mulai Mendaftar ✟</span>
-            </button>
         </div>
     </div>
 
     <script>
         function startRegistration() {
-            document.querySelector('.content').style.animation = 'fadeOut 0.8s ease-out forwards';
-            
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 800);
+            window.location.href = 'index.html';
         }
 
         // Additional fade out animation
