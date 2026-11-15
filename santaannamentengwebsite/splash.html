@@ -243,140 +243,173 @@
         .particle:nth-child(8) { left: 80%; animation-delay: 4.5s; animation-duration: 15s; }
         .particle:nth-child(9) { left: 90%; animation-delay: 1.5s; animation-duration: 12s; }
 
-        @media (max-width: 768px) {
-            .quote {
-                font-size: 20px;
-            }
-            .start-button {
-                padding: 15px 40px;
-                font-size: 16px;
-            }
+        /* Layout stabil untuk semua perangkat: tombol tepat di bawah SALVE */
+        html {
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
         }
-    
 
-        /* Tata letak khusus HP: tombol berada tepat di bawah Salve */
+        body {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100svh;
+            height: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .splash-container {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100svh;
+            height: auto;
+            padding: 24px 16px 32px;
+            justify-content: center;
+            overflow: visible;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 800px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: none;
+            transform: none;
+        }
+
+        /* Matikan gerakan yang dapat menyebabkan layar bergeser pada browser tertentu */
+        .splash-container,
+        .content,
+        .logo,
+        .cross-symbol,
+        .quote-container,
+        .decorative-line,
+        .overlay,
+        .particle {
+            animation: none !important;
+            transform: none !important;
+        }
+
+        .particles {
+            pointer-events: none;
+        }
+
+        .logo {
+            order: 1;
+            margin-bottom: 8px;
+        }
+
+        .start-button {
+            order: 2;
+            position: relative !important;
+            inset: auto !important;
+            transform: none !important;
+            z-index: 3;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            max-width: 100%;
+            min-height: 54px;
+            margin: 8px auto 20px;
+            padding: 15px 40px;
+            font-size: 16px;
+            line-height: 1.25;
+            white-space: normal;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+        }
+
+        .cross-symbol {
+            order: 3;
+            margin-bottom: 12px;
+        }
+
+        .quote-container {
+            order: 4;
+            width: 100%;
+            margin: 12px 0 0;
+        }
+
         @media (max-width: 768px) {
-            html, body {
-                width: 100%;
-                height: auto !important;
-                min-height: 100%;
-                overflow-x: hidden !important;
-                overflow-y: auto !important;
-            }
-
-            body {
-                position: relative;
-                -webkit-overflow-scrolling: touch;
-                background: #000;
-            }
-
             .splash-container {
-                width: 100%;
-                height: auto !important;
-                min-height: 100vh;
-                min-height: 100dvh;
-                padding: 12px 12px 24px;
                 justify-content: flex-start;
-                align-items: center;
-                overflow: visible;
-                animation: none !important;
+                padding: 18px 12px 28px;
             }
 
             .content {
-                width: 100%;
                 max-width: 620px;
                 padding: 8px 4px 16px;
                 margin: 0 auto;
-                animation: none !important;
-                transform: none !important;
             }
 
             .logo {
-                font-size: 22px;
-                margin: 2px 0 8px;
-                animation: none !important;
+                font-size: 21px;
+                margin-bottom: 6px;
             }
 
-            /* Tombol diletakkan di atas isi sambutan agar langsung terlihat */
             .start-button {
-                display: block;
-                position: relative !important;
-                left: auto !important;
-                bottom: auto !important;
-                transform: none !important;
                 width: min(100%, 420px);
                 min-height: 54px;
-                margin: 8px auto 14px;
-                padding: 13px 16px;
+                margin: 8px auto 18px;
+                padding: 14px 18px;
                 font-size: 15px;
-                line-height: 1.2;
-                letter-spacing: 1px;
-                white-space: normal;
-                touch-action: manipulation;
-                -webkit-tap-highlight-color: transparent;
-                z-index: 5;
-            }
-
-            .start-button:active {
-                transform: scale(.98) !important;
+                letter-spacing: 1.5px;
             }
 
             .cross-symbol {
-                font-size: 36px;
-                margin: 4px 0 8px;
-                animation: none !important;
+                font-size: 38px;
+                margin-bottom: 8px;
             }
 
             .quote-container {
-                width: 100%;
-                padding: 20px 16px;
-                margin: 8px 0 12px;
+                padding: 22px 18px;
+                margin-top: 10px;
                 border-radius: 18px;
-                animation: none !important;
-                -webkit-backdrop-filter: none;
-                backdrop-filter: none;
-                background: rgba(255, 255, 255, 0.16);
             }
 
             .quote {
-                font-size: clamp(16px, 4.6vw, 20px);
-                line-height: 1.4;
+                font-size: clamp(17px, 4.8vw, 20px);
+                line-height: 1.45;
                 margin-bottom: 10px;
             }
 
             .decorative-line {
-                margin: 12px auto;
-                animation: none !important;
+                margin: 13px auto;
+                max-width: 70%;
             }
 
             .quote-author {
-                font-size: clamp(13px, 3.8vw, 16px);
+                font-size: 15px;
                 line-height: 1.35;
-                margin-top: 10px;
-                letter-spacing: 1.2px;
+                margin-top: 12px;
+                letter-spacing: 1.5px;
             }
+        }
 
-            /* Nonaktifkan efek bergerak/berat pada HP */
-            .overlay, .particles, .particle, .logo, .cross-symbol,
-            .decorative-line, .quote-container {
-                animation: none !important;
-            }
-            .particles { pointer-events: none; }
+        @media (max-width: 768px) and (max-height: 700px) {
+            .splash-container { padding-top: 10px; padding-bottom: 18px; }
+            .content { padding-top: 4px; padding-bottom: 8px; }
+            .logo { margin-bottom: 4px; }
+            .start-button { margin-top: 6px; margin-bottom: 10px; min-height: 50px; }
+            .cross-symbol { font-size: 30px; margin-bottom: 6px; }
+            .quote-container { padding: 16px 14px; margin-top: 6px; }
+            .quote { font-size: 16px; line-height: 1.35; }
+            .quote-author { font-size: 14px; margin-top: 8px; }
         }
 
         @media (max-width: 380px) {
             .content { padding-left: 2px; padding-right: 2px; }
-            .start-button { font-size: 14px; }
-            .quote-container { padding: 16px 12px; }
+            .start-button { font-size: 14px; padding: 13px 12px; }
+            .quote-container { padding: 15px 12px; }
+            .quote { font-size: 16px; }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
 </style>
 </head>
 <body>
@@ -420,22 +453,6 @@
         function startRegistration() {
             window.location.href = 'index.html';
         }
-
-        // Additional fade out animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeOut {
-                from {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                }
-                to {
-                    opacity: 0;
-                    transform: translateY(-30px) scale(0.95);
-                }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
