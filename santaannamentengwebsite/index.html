@@ -827,7 +827,7 @@
                         Memeriksa status pendaftaran...
                     </p>
 
-                    <form id="registration-form" action="https://script.google.com/macros/s/AKfycbzAAcRO2GcWTNhwuEO5ENE0t_iE9SPTHbaqdVoAcvaVlZMwRM0R64wE1sXelfWnkyO9/exec"
+                    <form id="registration-form" style="display:none;" action="https://script.google.com/macros/s/AKfycbzAAcRO2GcWTNhwuEO5ENE0t_iE9SPTHbaqdVoAcvaVlZMwRM0R64wE1sXelfWnkyO9/exec"
                           method="POST" target="registration-result-frame">
                         <div class="form-grid" style="text-align:left;">
                             <div class="form-group">
@@ -1273,16 +1273,69 @@
                 }
             }
 
-            // JSONP untuk membaca status kuota tanpa CORS/fetch.
-            const callbackName = '__pdRegistrationStatusCallback';
-            window[callbackName] = updateStatus;
-            const statusScript = document.createElement('script');
-            statusScript.src = scriptUrl + '?action=getTotalRows&callback=' + callbackName;
-            statusScript.onerror = function () {
-                statusEl.textContent = 'Status pendaftaran tidak dapat dimuat. Silakan coba muat ulang halaman.';
-                form.querySelectorAll('input,button').forEach(el => el.disabled = true);
-            };
-            document.head.appendChild(statusScript);
+            // Form disembunyikan sampai jadwal pembukaan tiba (WIB).
+            // Setelah waktunya tiba, backend tetap menjadi penentu final status dan kuota.
+            form.style.display = 'none';
+
+            function getJakartaNowParts() {
+                const parts = new Intl.DateTimeFormat('en-CA', {
+                    timeZone: 'Asia/Jakarta',
+                    year: 'numeric', month: '2-digit', day: '2-digit',
+                    hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+                }).formatToParts(new Date());
+                const values = {};
+                parts.forEach(part => { if (part.type !== 'literal') values[part.type] = part.value; });
+                return values;
+            }
+
+            function isOpeningTimeReached() {
+                const t = getJakartaNowParts();
+                const current = Number(t.year + t.month + t.day + t.hour + t.minute);
+                const opening = 202612070800;
+                return current >= opening;
+            }
+
+            function checkBackendStatus() {
+                statusEl.textContent = 'Memeriksa ketersediaan kuota...';
+                const callbackName = '__pdRegistrationStatusCallback';
+                window[callbackName] = function (data) {
+                    if (!data || !data.success) {
+                        form.style.display = 'none';
+                        statusEl.textContent = 'Pendaftaran belum dapat dibuka karena status layanan belum bisa diperiksa. Silakan coba muat ulang halaman.';
+                        return;
+                    }
+
+                    if (data.isOpen) {
+                        statusEl.textContent = 'Pendaftaran telah dibuka. Kuota tersedia 430 peserta.';
+                        form.style.display = 'block';
+                        return;
+                    }
+
+                    form.style.display = 'none';
+                    if (data.statusCode === 'QUOTA_FULL') {
+                        statusEl.textContent = 'Mohon maaf, kuota 430 peserta telah terpenuhi. Pendaftaran ditutup.';
+                    } else if (data.statusCode === 'NOT_OPEN_YET') {
+                        statusEl.textContent = 'Pendaftaran belum dibuka. Pendaftaran dimulai Senin, 7 Desember 2026 pukul 08.00 WIB.';
+                    } else {
+                        statusEl.textContent = 'Pendaftaran saat ini ditutup oleh panitia.';
+                    }
+                };
+
+                const statusScript = document.createElement('script');
+                statusScript.src = scriptUrl + '?action=getTotalRows&callback=' + callbackName + '&_=' + Date.now();
+                statusScript.onerror = function () {
+                    form.style.display = 'none';
+                    statusEl.textContent = 'Status pendaftaran belum dapat diperiksa. Silakan muat ulang halaman beberapa saat lagi.';
+                };
+                document.head.appendChild(statusScript);
+            }
+
+            if (isOpeningTimeReached()) {
+                checkBackendStatus();
+            } else {
+                form.style.display = 'none';
+                statusEl.textContent = 'Pendaftaran belum dibuka. Pendaftaran dimulai Senin, 7 Desember 2026 pukul 08.00 WIB.';
+            }
 
             form.addEventListener('submit', function () {
                 document.getElementById('request_id').value = makeRequestId();
